@@ -1,0 +1,90 @@
+:root {
+    --primary-color: #4d96ff;
+    --secondary-color: #6c757d;
+    --accent-color: #ff6b6b;
+    --light-bg: #f8f9fa;
+    --dark-bg: #343a40;
+}
+
+/* Navbar customization */
+.navbar {
+    font-family: 'Poppins', sans-serif;
+    padding: 0.8rem 0;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+}
+
+.nav-link {
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+
+/* Game cards */
+.game-card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.game-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.game-card img {
+    height: 200px;
+    object-fit: cover;
+}
+
+.game-card .card-body {
+    padding: 1.5rem;
+}
+
+.game-card .btn {
+    background-color: var(--primary-color);
+    border: none;
+    padding: 0.5rem 1.5rem;
+    font-weight: 500;
+}
+
+.game-card .btn:hover {
+    background-color: #3a7bd5;
+}
+
+/* Footer */
+footer {
+    font-size: 0.9rem;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: var(--accent-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.25rem;
+    }
+    
+    .game-card {
+        margin-bottom: 1.5rem;
+    }
+}
