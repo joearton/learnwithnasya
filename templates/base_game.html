@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename=game.style) }}">
+{% endblock styles %}
+
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename=game.script) }}"></script>
+{% endblock scripts %}
+
+
+{% block main %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm sticky-top">
+        {% include "elements/navbar.html" %}
+    </nav>
+
+    <audio id="game-audio-click" src="{{ url_for('static', filename='audio/click.mp3') }}" preload="auto"></audio>
+    <audio id="game-audio-false" src="{{ url_for('static', filename='audio/false.mp3') }}" preload="auto"></audio>
+    <audio id="game-audio-true" src="{{ url_for('static', filename='audio/true.mp3') }}" preload="auto"></audio>
+    <audio id="game-audio-scare" src="{{ url_for('static', filename='audio/scare.mp3') }}" preload="auto"></audio>
+    <audio id="game-audio-ding" src="{{ url_for('static', filename='audio/ding.mp3') }}" preload="auto"></audio>
+    <audio id="game-audio-next-level" src="{{ url_for('static', filename='audio/next-level.mp3') }}" preload="auto"></audio>
+
+    <div class="my-3">
+        {% block game %}{% endblock %}
+    </div>
+{% endblock %}

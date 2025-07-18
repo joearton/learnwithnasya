@@ -1,0 +1,15 @@
+{% extends "base_game.html" %}
+
+{% block title %}Read Random Sentence{% endblock %}
+
+
+{% block game %}
+    <div class="container text-center">
+        <h1>English Sentences Game</h1>
+        <div class="sentence-display" id="sentenceDisplay">
+            Click the button to start!
+        </div>
+        <button id="randomButton">Get Random Sentence</button>
+        <div class="counter" id="counter">Sentences left: 25</div>
+    </div>
+{% endblock %}

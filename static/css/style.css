@@ -6,22 +6,20 @@
     --dark-bg: #343a40;
 }
 
+
+body {
+    background-color: #f7f7f7;
+}
+
 /* Navbar customization */
 .navbar {
     font-family: 'Poppins', sans-serif;
-    padding: 0.8rem 0;
 }
 
 .navbar-brand {
-    font-size: 1.5rem;
+    font-size: 1.15rem;
 }
 
-.nav-link {
-    font-weight: 500;
-    padding: 0.5rem 1rem;
-    border-radius: 0.25rem;
-    transition: all 0.3s ease;
-}
 
 .nav-link:hover {
     background-color: rgba(255, 255, 255, 0.1);

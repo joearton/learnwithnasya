@@ -1,7 +1,7 @@
 import os
 import json
 import logging
-from ..config import GAME_DIR
+from config import GAME_DIR
 
 
 logger = logging.getLogger(__name__)
@@ -19,16 +19,19 @@ def load_game_metadata(game_id):
 
     # Default metadata
     game_info = {
-        'id': game_id,
-        'title': game_id.replace('-', ' ').title(),
-        'thumbnail': 'static/images/no-thumbnail.png',  # fallback
-        'template': template_path
+        'id'        : game_id,
+        'title'     : game_id.replace('-', ' ').title(),
+        'thumbnail' : 'images/no-thumbnail.jpg',
+        'path'      : game_path,
+        'template'  : template_path,
+        'style'     : f'games/{game_id}/style.css',
+        'script'    : f'games/{game_id}/script.js'
     }
 
     # Cek thumbnail
-    thumbnail_path = os.path.join(game_path, 'thumbnail.png')
+    thumbnail_path = os.path.join(game_path, 'thumbnail.jpg')
     if os.path.isfile(thumbnail_path):
-        game_info['thumbnail'] = f'static/games/{game_id}/thumbnail.png'
+        game_info['thumbnail'] = f'games/{game_id}/thumbnail.jpg'
 
     # Cek info.json
     info_path = os.path.join(game_path, 'info.json')

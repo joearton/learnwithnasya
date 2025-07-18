@@ -1,0 +1,546 @@
+{% extends "base.html" %}
+
+{% block title %}Nasya is unable to find the way{% endblock %}
+
+{% block main %}
+<div class="kids-error-container">
+    <div class="kids-error-content">
+        <!-- Karakter Kartun -->
+        <div class="cartoon-character">
+            <div class="character-head">
+                <div class="eyes">
+                    <div class="eye"></div>
+                    <div class="eye"></div>
+                </div>
+                <div class="mouth sad"></div>
+                <div class="blush left"></div>
+                <div class="blush right"></div>
+            </div>
+            <div class="thought-bubble">
+                <div class="error-number">4</div>
+                <div class="error-number">0</div>
+                <div class="error-number">4</div>
+            </div>
+        </div>
+
+        <h1 class="kids-error-title">Oops! The Page is Disappear!</h1>
+        <p class="kids-error-message">Looks like this page is playing hide and seek!<br>Let's go back to our fun game!</p>
+        
+        <div class="kids-action-buttons">
+            <a href="{{ url_for('index') }}" class="kids-btn home-btn">
+                <svg class="kids-icon" viewBox="0 0 24 24">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                Go to Home
+            </a>
+            <a href="{{ url_for('index') }}" class="kids-btn game-btn">
+                <svg class="kids-icon" viewBox="0 0 24 24">
+                    <path d="M15 7.5V2H9v5.5l3 3 3-3zM7.5 9H2v6h5.5l3-3-3-3zM9 16.5V22h6v-5.5l-3-3-3 3zM16.5 9l-3 3 3 3H22V9h-5.5z"/>
+                </svg>
+                Play Games
+            </a>
+        </div>
+
+        <!-- Elemen Pendidikan -->
+        <div class="educational-element">
+            <div class="word-bubble">
+                <span class="english-word">Hide and Seek</span>
+                <span class="translation">(Petak Umpet)</span>
+            </div>
+            <div class="animal-friends">
+                <div class="animal cat"></div>
+                <div class="animal dog"></div>
+                <div class="animal rabbit"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="floating-elements">
+        <div class="floating abc">A B C</div>
+        <div class="floating cloud"></div>
+        <div class="floating star"></div>
+        <div class="floating heart"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+    /* Warna Cerah untuk Anak-Anak */
+    :root {
+        --primary: #FF6B6B;
+        --secondary: #4ECDC4;
+        --accent: #FFE66D;
+        --dark: #2D3047;
+        --light: #F7FFF7;
+    }
+
+    .kids-error-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #F0F7F4;
+        background-image: radial-gradient(circle at 10% 20%, rgba(255,255,255,0.8) 0%, rgba(240,247,244,0.9) 100%);
+        position: relative;
+        overflow: hidden;
+        padding: 2rem;
+        font-family: 'Comic Sans MS', 'Marker Felt', 'Arial Rounded MT Bold', sans-serif;
+    }
+
+    .kids-error-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        max-width: 800px;
+        width: 100%;
+        background-color: white;
+        padding: 3rem 2rem;
+        border-radius: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        border: 5px solid var(--accent);
+    }
+
+    /* Karakter Kartun */
+    .cartoon-character {
+        width: 180px;
+        height: 220px;
+        margin: 0 auto 2rem;
+        position: relative;
+    }
+
+    .character-head {
+        width: 120px;
+        height: 150px;
+        background-color: var(--primary);
+        border-radius: 50% 50% 45% 45%;
+        margin: 0 auto;
+        position: relative;
+        box-shadow: inset -5px -5px 0 rgba(0,0,0,0.1);
+    }
+
+    .eyes {
+        display: flex;
+        justify-content: space-around;
+        padding-top: 50px;
+    }
+
+    .eye {
+        width: 20px;
+        height: 25px;
+        background-color: white;
+        border-radius: 50%;
+        position: relative;
+    }
+
+    .eye::after {
+        content: '';
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: var(--dark);
+        border-radius: 50%;
+        top: 7px;
+        left: 5px;
+    }
+
+    .mouth {
+        width: 30px;
+        height: 10px;
+        background-color: white;
+        border-radius: 0 0 15px 15px;
+        margin: 15px auto 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .mouth.sad {
+        border-radius: 15px 15px 0 0;
+        transform: rotate(180deg);
+        height: 15px;
+    }
+
+    .blush {
+        width: 20px;
+        height: 10px;
+        background-color: #FFB8B8;
+        border-radius: 50%;
+        position: absolute;
+        top: 70px;
+        opacity: 0.7;
+    }
+
+    .blush.left {
+        left: 15px;
+    }
+
+    .blush.right {
+        right: 15px;
+    }
+
+    /* Thought Bubble */
+    .thought-bubble {
+        position: absolute;
+        top: -40px;
+        right: -30px;
+        background-color: white;
+        border-radius: 20px;
+        padding: 10px;
+        display: flex;
+        box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+    }
+
+    .thought-bubble::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        right: 30px;
+        border-width: 15px 10px 0;
+        border-style: solid;
+        border-color: white transparent;
+    }
+
+    .error-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: var(--primary);
+        margin: 0 5px;
+        animation: bounce 1s infinite alternate;
+    }
+
+    .error-number:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .error-number:nth-child(3) {
+        animation-delay: 0.4s;
+    }
+
+    /* Teks */
+    .kids-error-title {
+        font-size: 2.2rem;
+        color: var(--dark);
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+    }
+
+    .kids-error-message {
+        font-size: 1.2rem;
+        color: var(--dark);
+        margin-bottom: 2rem;
+        line-height: 1.5;
+    }
+
+    /* Tombol */
+    .kids-action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+    }
+
+    .kids-btn {
+        padding: 0.8rem 1.5rem;
+        border-radius: 50px;
+        font-weight: bold;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .home-btn {
+        background-color: var(--primary);
+        color: white;
+    }
+
+    .game-btn {
+        background-color: var(--secondary);
+        color: white;
+    }
+
+    .kids-btn:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+
+    .kids-btn:active {
+        transform: translateY(1px);
+    }
+
+    .kids-icon {
+        width: 20px;
+        height: 20px;
+        fill: currentColor;
+    }
+
+    /* Elemen Pendidikan */
+    .educational-element {
+        margin-top: 2rem;
+    }
+
+    .word-bubble {
+        background-color: var(--accent);
+        padding: 0.8rem 1.2rem;
+        border-radius: 20px;
+        display: inline-block;
+        margin-bottom: 1rem;
+        box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+    }
+
+    .english-word {
+        font-weight: bold;
+        color: var(--dark);
+        font-size: 1.2rem;
+    }
+
+    .translation {
+        color: var(--dark);
+        opacity: 0.8;
+        font-size: 0.9rem;
+        margin-left: 0.5rem;
+    }
+
+    .animal-friends {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    .animal {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        position: relative;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    .animal.cat {
+        background-color: #FF9E7D;
+        animation-delay: 0s;
+    }
+    .animal.cat::before {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: 15px;
+        width: 10px;
+        height: 10px;
+        background-color: #FF9E7D;
+        border-radius: 50%;
+        box-shadow: 10px 0 #FF9E7D;
+    }
+
+    .animal.dog {
+        background-color: #A5DCE4;
+        animation-delay: 0.2s;
+    }
+    .animal.dog::before {
+        content: '';
+        position: absolute;
+        top: -15px;
+        left: 10px;
+        width: 30px;
+        height: 20px;
+        background-color: #A5DCE4;
+        border-radius: 50% 50% 0 0;
+    }
+
+    .animal.rabbit {
+        background-color: #FFD166;
+        animation-delay: 0.4s;
+    }
+    .animal.rabbit::before {
+        content: '';
+        position: absolute;
+        top: -15px;
+        left: 10px;
+        width: 10px;
+        height: 20px;
+        background-color: #FFD166;
+        border-radius: 50%;
+        box-shadow: 10px 0 #FFD166;
+    }
+
+    /* Elemen Mengambang */
+    .floating-elements {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .floating {
+        position: absolute;
+        animation: floating 10s linear infinite;
+        opacity: 0.7;
+    }
+
+    .floating.abc {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--primary);
+        animation-delay: 0s;
+        top: 10%;
+        left: 5%;
+    }
+
+    .floating.cloud {
+        width: 60px;
+        height: 30px;
+        background-color: white;
+        border-radius: 30px;
+        top: 30%;
+        right: 10%;
+        animation-delay: 2s;
+    }
+    .floating.cloud::before {
+        content: '';
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        background-color: white;
+        border-radius: 50%;
+        top: -15px;
+        left: 10px;
+    }
+    .floating.cloud::after {
+        content: '';
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        background-color: white;
+        border-radius: 50%;
+        top: -10px;
+        right: 10px;
+    }
+
+    .floating.star {
+        width: 30px;
+        height: 30px;
+        background-color: var(--accent);
+        clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        top: 70%;
+        left: 15%;
+        animation-delay: 4s;
+    }
+
+    .floating.heart {
+        width: 30px;
+        height: 30px;
+        background-color: #FF6B6B;
+        transform: rotate(45deg);
+        top: 80%;
+        right: 20%;
+        animation-delay: 6s;
+    }
+    .floating.heart::before, 
+    .floating.heart::after {
+        content: '';
+        width: 30px;
+        height: 30px;
+        background-color: #FF6B6B;
+        border-radius: 50%;
+        position: absolute;
+    }
+    .floating.heart::before {
+        top: -15px;
+        left: 0;
+    }
+    .floating.heart::after {
+        top: 0;
+        left: -15px;
+    }
+
+    /* Animasi */
+    @keyframes bounce {
+        0% { transform: translateY(0); }
+        100% { transform: translateY(-10px); }
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-15px); }
+        100% { transform: translateY(0px); }
+    }
+
+    @keyframes floating {
+        0% { transform: translate(0, 0) rotate(0deg); }
+        25% { transform: translate(50px, 30px) rotate(5deg); }
+        50% { transform: translate(100px, 0) rotate(0deg); }
+        75% { transform: translate(50px, -30px) rotate(-5deg); }
+        100% { transform: translate(0, 0) rotate(0deg); }
+    }
+
+    /* Responsif */
+    @media (max-width: 768px) {
+        .kids-error-title {
+            font-size: 1.8rem;
+        }
+        
+        .kids-error-message {
+            font-size: 1rem;
+        }
+        
+        .kids-action-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .kids-btn {
+            width: 100%;
+            max-width: 250px;
+            justify-content: center;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Membuat mata karakter mengikuti mouse
+        const eyes = document.querySelectorAll('.eye');
+        
+        document.addEventListener('mousemove', (e) => {
+            eyes.forEach(eye => {
+                const eyeRect = eye.getBoundingClientRect();
+                const eyeX = eyeRect.left + eyeRect.width / 2;
+                const eyeY = eyeRect.top + eyeRect.height / 2;
+                
+                const angle = Math.atan2(e.pageY - eyeY, e.pageX - eyeX);
+                const distance = Math.min(3, 
+                    Math.sqrt(Math.pow(e.pageX - eyeX, 2) + Math.pow(e.pageY - eyeY, 2)) / 20
+                );
+                
+                const pupilX = Math.cos(angle) * distance;
+                const pupilY = Math.sin(angle) * distance;
+                
+                eye.style.transform = `translate(${pupilX}px, ${pupilY}px)`;
+            });
+        });
+
+        // Animasi tambahan untuk elemen mengambang
+        const floatingElements = document.querySelectorAll('.floating');
+        floatingElements.forEach(el => {
+            // Set random starting position
+            el.style.left = `${Math.random() * 80 + 10}%`;
+            el.style.top = `${Math.random() * 80 + 10}%`;
+            
+            // Set random animation duration
+            const duration = Math.random() * 15 + 10;
+            el.style.animationDuration = `${duration}s`;
+        });
+    });
+</script>
+{% endblock %}

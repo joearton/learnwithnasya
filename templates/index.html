@@ -1,31 +1,170 @@
-{% extends "base.html" %}
+{% extends "base_home.html" %}
+
 
 {% block title %}English Learning Games{% endblock %}
 
-{% block content %}
-<div class="hero">
-    <h1>Welcome to English Learning Games!</h1>
-    <p>Fun and interactive games to help kids learn English</p>
-</div>
 
-<h1 class="my-4">Pilih Game</h1>
-<div class="row">
-    {% for game in games %}
-    <div class="col-md-4 mb-4">
-        <div class="card game-card">
-            <img src="{{ url_for('static', filename=game.thumbnail) }}" 
-                    class="card-img-top" 
-                    alt="{{ game.thumbnail_alt|default(game.title) }}">
-            <div class="card-body">
-                <h5 class="card-title">{{ game.title }}</h5>
-                <p class="card-text">{{ game.description }}</p>
-                <a href="{{ url_for('play_game', game_id=game.id) }}" 
-                    class="btn btn-primary">
-                    Main Sekarang
-                </a>
+{% block content %}
+<!-- Hero Section with Gradient Background -->
+<section class="hero-section bg-gradient-primary py-5 mb-5 d-none">
+    <div class="container text-center text-white py-5">
+        <h1 class="display-4 fw-bold mb-3 animate__animated animate__fadeInDown">Welcome to English Learning Games!</h1>
+        <p class="lead mb-4 animate__animated animate__fadeIn animate__delay-1s">Fun and interactive games to help kids learn English</p>
+        <div class="d-flex justify-content-center gap-3 animate__animated animate__fadeIn animate__delay-2s">
+            <a href="#games" class="btn btn-light btn-lg rounded-pill px-4">
+                <i class="fas fa-gamepad me-2"></i>Explore Games
+            </a>
+            <a href="#" class="btn btn-outline-light btn-lg rounded-pill px-4">
+                <i class="fas fa-info-circle me-2"></i>Learn More
+            </a>
+        </div>
+    </div>
+</section>
+
+
+<!-- Games Section -->
+<section id="games" class="container my-3">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">Our Learning Games</h2>
+        <p class="text-muted">Select a game to start learning while having fun!</p>
+    </div>
+
+    <div class="row g-4">
+        {% for game in games %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card game-card h-100 border-0 shadow-sm hover-shadow transition-all">
+                    <div class="card-img-top overflow-hidden">
+                        <img src="{{ url_for('static', filename=game.thumbnail) }}" class="img-fluid w-100 game-thumbnail"  alt="{{ game.thumbnail_alt|default(game.title) }}">
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h5 class="card-title h6 fw-bold mb-0">{{ game.title }}</h5>
+                            <span class="badge bg-success rounded-pill">Ages 5+</span>
+                        </div>
+                        <p class="m-0 text-muted">{{ game.description }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 pt-0">
+                        <a href="{{ url_for('play_game', game_id=game.id) }}" 
+                           class="btn btn-primary rounded-pill w-100 py-2">
+                           <i class="fas fa-play-circle me-2"></i> Play Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="bg-white py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Why Choose Our Games?</h2>
+            <p class="text-muted">Designed for effective English learning</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="text-center p-4">
+                    <div class="icon-box bg-primary bg-opacity-10 text-primary rounded-circle mx-auto mb-4">
+                        <i class="fas fa-brain fa-2x"></i>
+                    </div>
+                    <h4>Interactive Learning</h4>
+                    <p class="text-muted">Engaging activities that make learning fun and memorable.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center p-4">
+                    <div class="icon-box bg-primary bg-opacity-10 text-primary rounded-circle mx-auto mb-4">
+                        <i class="fas fa-chart-line fa-2x"></i>
+                    </div>
+                    <h4>Progress Tracking</h4>
+                    <p class="text-muted">Monitor your child's improvement over time.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center p-4">
+                    <div class="icon-box bg-primary bg-opacity-10 text-primary rounded-circle mx-auto mb-4">
+                        <i class="fas fa-award fa-2x"></i>
+                    </div>
+                    <h4>Reward System</h4>
+                    <p class="text-muted">Motivating rewards to encourage continuous learning.</p>
+                </div>
             </div>
         </div>
     </div>
-    {% endfor %}
-</div>
+</section>
+{% endblock %}
+
+
+{% block styles %}
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .game-card {
+        border-radius: 16px;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .game-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .game-thumbnail {
+        transition: transform 0.5s ease;
+        height: 200px;
+        object-fit: cover;
+    }
+    
+    .game-card:hover .game-thumbnail {
+        transform: scale(1.05);
+    }
+    
+    .hover-shadow {
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .hover-shadow:hover {
+        box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+    
+    .transition-all {
+        transition: all 0.3s ease;
+    }
+    
+    .icon-box {
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<!-- Add any additional scripts here -->
+<script>
+    // Add any interactive functionality if needed
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animation for game cards when they come into view
+        const gameCards = document.querySelectorAll('.game-card');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        gameCards.forEach(card => {
+            observer.observe(card);
+        });
+    });
+</script>
 {% endblock %}

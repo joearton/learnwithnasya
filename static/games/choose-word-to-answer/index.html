@@ -1,0 +1,22 @@
+{% extends "base_game.html" %}
+
+
+{% block title %}Choose Word to Answer{% endblock %}
+
+
+{% block game %}
+    <div class="container">
+        <div class="question-display" id="questionDisplay">
+            Click the button to start the quiz!
+        </div>
+        <div class="options-container" id="optionsContainer">
+            <!-- Options will be inserted here by JavaScript -->
+        </div>
+
+        <div class="text-center">
+            <button id="nextButton">Next Question</button>
+            <div class="counter" id="counter">Questions left: 25</div>
+            <div class="score" id="score">Score: 0</div>
+        </div>
+    </div>
+{% endblock %}
