@@ -1,0 +1,108 @@
+/* Game Container */
+.game-container {
+    max-width: 900px;
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+}
+
+/* Text Gradient */
+.text-gradient {
+    background: linear-gradient(135deg, #3a7bd5, #00d2ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Game Card */
+.game-card {
+    border: none;
+    transition: transform 0.3s ease;
+}
+
+.game-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Speech Bubble */
+.speech-bubble:after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 15px 15px 0;
+    border-style: solid;
+    border-color: #3a7bd5 transparent;
+}
+
+/* Microphone Button */
+.mic-button {
+    width: 80px;
+    height: 80px;
+    transition: all 0.3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.mic-button:hover {
+    transform: scale(1.1);
+}
+
+.mic-button.listening {
+    animation: pulse 1.5s infinite;
+}
+
+.pulse-ring {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border: 2px solid rgba(220, 53, 69, 0.5);
+    border-radius: 50%;
+    animation: none;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 15px rgba(220, 53, 69, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+    }
+}
+
+/* Feedback Message */
+.feedback-message.correct {
+    color: #28a745;
+}
+
+.feedback-message.incorrect {
+    color: #dc3545;
+}
+
+/* Word Display */
+.word-main {
+    font-size: 3.5rem;
+    letter-spacing: 1px;
+}
+
+.word-sentence {
+    font-size: 2.5rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 576px) {
+    .word-main {
+        font-size: 3rem;
+    }
+    .word-sentence {
+        font-size: 1rem;
+    }
+    .mic-button {
+        width: 70px;
+        height: 70px;
+    }
+}

@@ -38,6 +38,19 @@ async function speak(text) {
 }
 
 
+// Text-to-Speech
+function speakText(text) {
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.9;
+        speechSynthesis.speak(utterance);
+    } else {
+        console.log("Text-to-speech not supported");
+    }
+}
+
+
 function setupClickToSpeak() {
     const elements = document.querySelectorAll('.click-to-speak');
 
