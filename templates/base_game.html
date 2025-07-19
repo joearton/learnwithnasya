@@ -22,6 +22,7 @@
     <audio id="game-audio-scare" src="{{ url_for('static', filename='audio/scare.mp3') }}" preload="auto"></audio>
     <audio id="game-audio-ding" src="{{ url_for('static', filename='audio/ding.mp3') }}" preload="auto"></audio>
     <audio id="game-audio-next-level" src="{{ url_for('static', filename='audio/next-level.mp3') }}" preload="auto"></audio>
+    <audio id="game-audio-speech" controls class="d-none"></audio>
 
     <div class="my-3">
         {% block game %}{% endblock %}

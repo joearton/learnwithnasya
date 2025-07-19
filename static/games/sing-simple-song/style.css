@@ -1,0 +1,49 @@
+/* Karaoke-style lyrics highlighting */
+.lyrics-container {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    height: 200px;
+    overflow-y: auto;
+    text-align: center;
+}
+
+.lyrics-container p {
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.lyrics-container p.highlight {
+    color: #0d6efd;
+    font-weight: bold;
+    transform: scale(1.05);
+}
+
+/* Current line display */
+#currentLine {
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .lyrics-container {
+        height: 150px;
+        font-size: 1rem;
+    }
+    
+    #currentLine, #nextLine {
+        font-size: 1.5rem !important;
+    }
+}
+
+/* Animation for current line */
+@keyframes highlight {
+    0% { background-color: rgba(13, 110, 253, 0.1); }
+    100% { background-color: transparent; }
+}
+
+.animate__pulse {
+    animation: highlight 1s ease;
+}

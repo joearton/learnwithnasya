@@ -1,0 +1,28 @@
+{% extends "base_game.html" %}
+
+{% block title %}Guess the Flag{% endblock %}
+
+{% block game %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0">Guess the Flag</h1>
+        <div class="d-flex gap-3">
+            <div class="badge bg-primary fs-5" id="timer">01:00</div>
+            <div class="badge bg-success fs-5" id="score">Score: 0</div>
+        </div>
+    </div>
+
+    <div class="card mb-4 border-primary">
+        <div class="card-body text-center p-4">
+            <div id="flagDisplay" class="flag-container mb-4"></div>
+            <h2 id="countryName"></h2>
+        </div>
+    </div>
+
+    <div class="row g-3" id="optionsContainer">
+        <!-- Options will be inserted here by JavaScript -->
+    </div>
+
+    <div id="feedback" class="alert text-center mt-4" style="display: none;"></div>
+</div>
+{% endblock %}

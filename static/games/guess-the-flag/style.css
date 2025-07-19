@@ -1,0 +1,32 @@
+/* Minimal additional styling */
+.flag-container {
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flag-emoji {
+    font-size: 8rem;
+    line-height: 1;
+}
+
+#countryName {
+    font-size: 1.8rem;
+    min-height: 3rem;
+}
+
+.answer-btn {
+    font-size: 1.2rem;
+    white-space: normal;
+}
+
+@media (max-width: 768px) {
+    .flag-emoji {
+        font-size: 6rem;
+    }
+    
+    #countryName {
+        font-size: 1.5rem;
+    }
+}

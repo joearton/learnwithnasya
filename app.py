@@ -1,16 +1,18 @@
 import os
+import io
 from config import *
+from gtts import gTTS
+from helpers.metadata import load_game_metadata
 from flask import (
     Flask,
+    request,
+    send_file,
     render_template,
-    send_from_directory,
     render_template_string
 )
-from helpers.metadata import load_game_metadata
 
 
 app = Flask(__name__)
-
 
 # Gabungkan dengan subfolder 'static/games'
 app.config['GAMES_DIR'] = GAME_DIR
@@ -46,10 +48,26 @@ def play_game(game_id):
     return render_template_string(template_str, game=game)
 
 
-# Route untuk file static dalam folder game
-@app.route('/games/<path:filename>')
-def game_static(filename):
-    return send_from_directory(app.config['GAMES_DIR'], filename)
+
+@app.route('/speak', methods=['POST'])
+def speak():
+    text = request.json.get('text')
+    if not text:
+        return {'error': 'No text provided'}, 400
+
+    tts = gTTS(text=text, lang='en')
+    audio_fp = io.BytesIO()
+    tts.write_to_fp(audio_fp)
+    audio_fp.seek(0)
+
+    return send_file(
+        audio_fp,
+        mimetype='audio/mpeg',
+        as_attachment=False,
+        download_name='speech.mp3'
+    )
+
+
 
 
 if __name__ == '__main__':

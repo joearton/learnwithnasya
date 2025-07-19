@@ -28,38 +28,45 @@ body {
 
 /* Game cards */
 .game-card {
-    border: none;
-    border-radius: 15px;
+    border-radius: 16px;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    background-color: white;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
 .game-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
-.game-card img {
+.game-thumbnail {
+    transition: transform 0.5s ease;
     height: 200px;
     object-fit: cover;
 }
 
-.game-card .card-body {
-    padding: 1.5rem;
+.game-card:hover .game-thumbnail {
+    transform: scale(1.05);
 }
 
-.game-card .btn {
-    background-color: var(--primary-color);
-    border: none;
-    padding: 0.5rem 1.5rem;
-    font-weight: 500;
+.hover-shadow {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-.game-card .btn:hover {
-    background-color: #3a7bd5;
+.hover-shadow:hover {
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
 }
+
+.transition-all {
+    transition: all 0.3s ease;
+}
+
+.icon-box {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 
 /* Footer */
 footer {

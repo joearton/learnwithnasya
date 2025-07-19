@@ -5,25 +5,32 @@
 
 
 {% block content %}
-<!-- Hero Section with Gradient Background -->
-<section class="hero-section bg-gradient-primary py-5 mb-5 d-none">
-    <div class="container text-center text-white py-5">
-        <h1 class="display-4 fw-bold mb-3 animate__animated animate__fadeInDown">Welcome to English Learning Games!</h1>
-        <p class="lead mb-4 animate__animated animate__fadeIn animate__delay-1s">Fun and interactive games to help kids learn English</p>
-        <div class="d-flex justify-content-center gap-3 animate__animated animate__fadeIn animate__delay-2s">
-            <a href="#games" class="btn btn-light btn-lg rounded-pill px-4">
-                <i class="fas fa-gamepad me-2"></i>Explore Games
-            </a>
-            <a href="#" class="btn btn-outline-light btn-lg rounded-pill px-4">
-                <i class="fas fa-info-circle me-2"></i>Learn More
-            </a>
-        </div>
+<section class="fairy-bg py-5 mb-5 text-center text-dark sparkle">
+  <div class="cloud"></div> <!-- Floating cloud layer -->
+
+  <div class="container position-relative py-5" style="z-index: 1;">
+    <h1 class="display-4 fw-bold mb-3 animate__animated animate__bounceInDown">
+      🧚 Welcome to <span class="text-primary">LearnWithNasya!</span> 🎉
+    </h1>
+    <p class="lead fs-4 mb-4 animate__animated animate__fadeInUp animate__delay-1s">
+      Magical games that make learning English fun 🌈🎮📚
+    </p>
+    <div class="d-flex justify-content-center gap-3 animate__animated animate__fadeInUp animate__delay-2s">
+      <a href="#games" class="btn btn-warning btn-lg rounded-pill px-4 shadow btn-animated">
+        <i class="fas fa-unicorn me-2"></i> Start Adventure
+      </a>
+      <a href="#" class="btn btn-outline-dark btn-lg rounded-pill px-4 shadow-sm btn-animated">
+        <i class="fas fa-book-open me-2"></i> Learn More
+      </a>
     </div>
+  </div>
 </section>
 
 
+
+
 <!-- Games Section -->
-<section id="games" class="container my-3">
+<section id="games" class="container mb-5">
     <div class="text-center mb-5">
         <h2 class="fw-bold">Our Learning Games</h2>
         <p class="text-muted">Select a game to start learning while having fun!</p>
@@ -31,7 +38,7 @@
 
     <div class="row g-4">
         {% for game in games %}
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-3 col-md-4 mb-4">
                 <div class="card game-card h-100 border-0 shadow-sm hover-shadow transition-all">
                     <div class="card-img-top overflow-hidden">
                         <img src="{{ url_for('static', filename=game.thumbnail) }}" class="img-fluid w-100 game-thumbnail"  alt="{{ game.thumbnail_alt|default(game.title) }}">
@@ -43,7 +50,7 @@
                         </div>
                         <p class="m-0 text-muted">{{ game.description }}</p>
                     </div>
-                    <div class="card-footer bg-transparent border-0 pt-0">
+                    <div class="card-footer bg-transparent border-0 ">
                         <a href="{{ url_for('play_game', game_id=game.id) }}" 
                            class="btn btn-primary rounded-pill w-100 py-2">
                            <i class="fas fa-play-circle me-2"></i> Play Now
@@ -98,51 +105,52 @@
 
 
 {% block styles %}
-<style>
-    .hero-section {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
-    
-    .game-card {
-        border-radius: 16px;
-        overflow: hidden;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    .game-card:hover {
-        transform: translateY(-5px);
-    }
-    
-    .game-thumbnail {
-        transition: transform 0.5s ease;
-        height: 200px;
-        object-fit: cover;
-    }
-    
-    .game-card:hover .game-thumbnail {
-        transform: scale(1.05);
-    }
-    
-    .hover-shadow {
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-    
-    .hover-shadow:hover {
-        box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-    }
-    
-    .transition-all {
-        transition: all 0.3s ease;
-    }
-    
-    .icon-box {
-        width: 80px;
-        height: 80px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-</style>
+    <style>
+        .fairy-bg {
+            background: linear-gradient(120deg, #f6d365, #fda085, #fbc2eb, #a1c4fd);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Floating clouds (optional) */
+        .cloud {
+            position: absolute;
+            background: url('https://www.transparenttextures.com/patterns/clouds.png');
+            width: 100%;
+            height: 100%;
+            opacity: 0.2;
+            animation: floatCloud 60s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes floatCloud {
+            0% { background-position: 0 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        /* Sparkle (optional particle effect) */
+        .sparkle::after {
+            content: "✨";
+            position: absolute;
+            font-size: 1.5rem;
+            animation: sparkleAnim 2s infinite alternate;
+            opacity: 0.6;
+        }
+
+        @keyframes sparkleAnim {
+            0% { top: 10%; left: 90%; opacity: 0.3; transform: scale(1); }
+            100% { top: 30%; left: 70%; opacity: 0.8; transform: scale(1.5); }
+        }
+
+        .btn-animated:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+        }
+
+        .btn-animated {
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
 {% endblock %}
 
 {% block scripts %}
