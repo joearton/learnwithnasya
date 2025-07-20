@@ -1,139 +1,255 @@
+// Song database
 const songs = [
     {
-        title: "Count on Me - Bruno Mars",
+        title: "Twinkle Twinkle Little Star",
         lyrics: [
-            "If you ever find yourself stuck in the middle of the sea",
-            "I'll sail the world to find you",
-            "If you ever find yourself lost in the dark and you can't see",
-            "I'll be the light to guide you",
-            "You can count on me like one, two, three",
-            "I'll be there",
-            "And I know when I need it",
-            "I can count on you like four, three, two",
-            "And you'll be there"
+            "Twinkle, twinkle, little star,",
+            "How I wonder what you are!",
+            "Up above the world so high,",
+            "Like a diamond in the sky.",
+            "Twinkle, twinkle, little star,",
+            "How I wonder what you are!"
         ],
-        level: "easy"
+        audio: "/static/games/sing-simple-song/songs/twinkle.mp3"
     },
     {
-        title: "Happy - Pharrell Williams",
+        title: "The Alphabet Song",
         lyrics: [
-            "It might seem crazy what I'm about to say",
-            "Sunshine she's here, you can take a break",
-            "I'm a hot air balloon that could go to space",
-            "With the air, like I don't care baby by the way",
-            "Because I'm happy",
-            "Clap along if you feel like a room without a roof",
-            "Because I'm happy",
-            "Clap along if you feel like happiness is the truth"
+            "A, B, C, D, E, F, G,",
+            "H, I, J, K, L, M, N, O, P,",
+            "Q, R, S, T, U, V,",
+            "W, X, Y, and Z.",
+            "Now I know my ABCs,",
+            "Next time won't you sing with me?"
         ],
-        level: "medium"
+        audio: "/static/games/sing-simple-song/songs/alphabet.mp3"
     },
     {
-        title: "Imagine - John Lennon",
+        title: "Old MacDonald Had a Farm",
         lyrics: [
-            "Imagine there's no heaven",
-            "It's easy if you try",
-            "No hell below us",
-            "Above us only sky",
-            "Imagine all the people",
-            "Living for today"
+            "Old MacDonald had a farm, E-I-E-I-O",
+            "And on that farm he had a cow, E-I-E-I-O",
+            "With a moo moo here and a moo moo there",
+            "Here a moo, there a moo, everywhere a moo moo",
+            "Old MacDonald had a farm, E-I-E-I-O"
         ],
-        level: "advanced"
+        audio: "/static/games/sing-simple-song/songs/macdonald.mp3"
+    },
+    {
+        title: "If You're Happy and You Know It",
+        lyrics: [
+            "If you're happy and you know it, clap your hands",
+            "If you're happy and you know it, clap your hands",
+            "If you're happy and you know it, then your face will surely show it",
+            "If you're happy and you know it, clap your hands"
+        ],
+        audio: "/static/games/sing-simple-song/songs/happy.mp3"
+    },
+    {
+        title: "Head, Shoulders, Knees and Toes",
+        lyrics: [
+            "Head, shoulders, knees and toes, knees and toes",
+            "Head, shoulders, knees and toes, knees and toes",
+            "And eyes and ears and mouth and nose",
+            "Head, shoulders, knees and toes, knees and toes"
+        ],
+        audio: "/static/games/sing-simple-song/songs/headshoulders.mp3"
     }
 ];
 
-
 // Game variables
-let currentSongIndex = 0;
-let currentLyricIndex = 0;
+let currentSong = null;
+let currentLine = 0;
 let score = 0;
+let startTime = null;
+let songAudio = null;
+let applauseAudio = null;
 
 // DOM elements
-const songTitle = document.getElementById('songTitle');
-const lyricsDisplay = document.getElementById('lyricsDisplay');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
-const prevSongBtn = document.getElementById('prevSongBtn');
-const nextSongBtn = document.getElementById('nextSongBtn');
+const startScreen = document.getElementById('start-screen');
+const songSelection = document.getElementById('song-selection');
+const singingScreen = document.getElementById('singing-screen');
+const startBtn = document.getElementById('start-btn');
+const backToStartBtn = document.getElementById('back-to-start');
+const backToSongsBtn = document.getElementById('back-to-songs');
+const songChoices = document.getElementById('song-choices');
+const songTitle = document.getElementById('song-title');
+const lyricsContainer = document.getElementById('lyrics-container');
+const playBtn = document.getElementById('play-btn');
+const nextSongBtn = document.getElementById('next-song-btn');
+const progressBar = document.getElementById('progress-bar');
 const scoreDisplay = document.getElementById('score');
 
-// Initialize game
-function initGame() {
-    loadSong();
+// Initialize the game
+document.addEventListener('DOMContentLoaded', () => {
+    songAudio = document.getElementById('song-audio');
+    applauseAudio = document.getElementById('applause-audio');
     
-    prevBtn.addEventListener('click', showPreviousLyric);
-    nextBtn.addEventListener('click', showNextLyric);
-    prevSongBtn.addEventListener('click', showPreviousSong);
-    nextSongBtn.addEventListener('click', showNextSong);
+    // Set up event listeners
+    startBtn.addEventListener('click', showSongSelection);
+    backToStartBtn.addEventListener('click', showStartScreen);
+    backToSongsBtn.addEventListener('click', showSongSelection);
+    playBtn.addEventListener('click', playSong);
+    nextSongBtn.addEventListener('click', showSongSelection);
+    
+    // Populate song choices
+    populateSongChoices();
+});
+
+function showStartScreen() {
+    startScreen.classList.remove('d-none');
+    songSelection.classList.add('d-none');
+    singingScreen.classList.add('d-none');
+    if (songAudio) {
+        songAudio.pause();
+        songAudio.currentTime = 0;
+    }
 }
 
-// Load current song
-function loadSong() {
-    const song = songs[currentSongIndex];
+function showSongSelection() {
+    startScreen.classList.add('d-none');
+    songSelection.classList.remove('d-none');
+    singingScreen.classList.add('d-none');
+    if (songAudio) {
+        songAudio.pause();
+        songAudio.currentTime = 0;
+    }
+    // Shuffle songs for variety
+    shuffleArray(songs);
+}
+
+function showSingingScreen(song) {
+    startScreen.classList.add('d-none');
+    songSelection.classList.add('d-none');
+    singingScreen.classList.remove('d-none');
+    
+    currentSong = song;
+    currentLine = 0;
+    score = 0;
+    startTime = new Date();
+    
+    // Update UI
     songTitle.textContent = song.title;
-    currentLyricIndex = 0;
-    updateLyricDisplay();
-    updateSongNavButtons();
-}
-
-// Update lyric display
-function updateLyricDisplay() {
-    const song = songs[currentSongIndex];
-    lyricsDisplay.innerHTML = `
-        <p class="display-6 click-to-speak">${song.lyrics[currentLyricIndex]}</p>
-    `;
+    scoreDisplay.textContent = score;
+    progressBar.style.width = '0%';
     
-    // Update button states
-    prevBtn.disabled = currentLyricIndex === 0;
-    nextBtn.disabled = currentLyricIndex === song.lyrics.length - 1;
+    // Display lyrics
+    lyricsContainer.innerHTML = '';
+    song.lyrics.forEach((line, index) => {
+        const lineElement = document.createElement('div');
+        lineElement.classList.add('lyrics-line');
+        if (index === 0) lineElement.classList.add('highlight');
+        lineElement.textContent = line;
+        lineElement.classList.add('click-to-speak');
+        lyricsContainer.appendChild(lineElement);
+    });
+    
+    // Set up audio
+    songAudio.src = song.audio;
+    songAudio.load();
 }
 
-// Show previous lyric
-function showPreviousLyric() {
-    if (currentLyricIndex > 0) {
-        currentLyricIndex--;
-        updateLyricDisplay();
+function populateSongChoices() {
+    songChoices.innerHTML = '';
+    
+    songs.forEach((song, index) => {
+        const col = document.createElement('div');
+        col.className = 'col-md-4 col-sm-6';
+        
+        const card = document.createElement('div');
+        card.className = 'card song-card bg-light p-3';
+        card.innerHTML = `
+            <div class="card-body text-center">
+                <i class="fas fa-music fa-3x text-primary mb-3"></i>
+                <h5 class="card-title click-to-speak">${song.title}</h5>
+            </div>
+        `;
+        
+        card.addEventListener('click', () => {
+            showSingingScreen(song);
+            speak(song.title); // Read the song title for accessibility
+        });
+        
+        col.appendChild(card);
+        songChoices.appendChild(col);
+    });
+}
+
+function playSong() {
+    if (songAudio.paused) {
+        playBtn.innerHTML = '<i class="fas fa-pause me-2"></i>Pause';
+        songAudio.play();
+        
+        // Highlight lyrics as they play
+        songAudio.addEventListener('timeupdate', highlightLyrics);
+        songAudio.addEventListener('ended', songFinished);
+    } else {
+        playBtn.innerHTML = '<i class="fas fa-play me-2"></i>Play';
+        songAudio.pause();
     }
 }
 
-// Show next lyric
-function showNextLyric() {
-    const song = songs[currentSongIndex];
+function highlightLyrics() {
+    const duration = songAudio.duration;
+    const currentTime = songAudio.currentTime;
+    const progress = (currentTime / duration) * 100;
+    progressBar.style.width = `${progress}%`;
     
-    if (currentLyricIndex < song.lyrics.length - 1) {
-        currentLyricIndex++;
-        updateLyricDisplay();
-        score++;
-        updateScore();
+    // Calculate which line should be highlighted based on current time
+    const totalLines = currentSong.lyrics.length;
+    const timePerLine = duration / totalLines;
+    const newLine = Math.floor(currentTime / timePerLine);
+    
+    if (newLine !== currentLine && newLine < totalLines) {
+        // Remove highlight from previous line
+        if (currentLine < totalLines) {
+            const prevLineElement = lyricsContainer.children[currentLine];
+            prevLineElement.classList.remove('highlight');
+        }
+        
+        // Add highlight to new line
+        currentLine = newLine;
+        const currentLineElement = lyricsContainer.children[currentLine];
+        currentLineElement.classList.add('highlight');
+        
+        // Scroll to the highlighted line
+        currentLineElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+        });
+        
+        // Update score based on participation
+        if (score < 100) {
+            score += Math.floor(100 / totalLines);
+            if (score > 100) score = 100;
+            scoreDisplay.textContent = score;
+        }
     }
 }
 
-// Show previous song
-function showPreviousSong() {
-    currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
-    loadSong();
+function songFinished() {
+    playBtn.innerHTML = '<i class="fas fa-play me-2"></i>Play Again';
+    progressBar.style.width = '100%';
+    
+    // Play applause if they did well
+    if (score > 70) {
+        applauseAudio.play();
+        playGameAudio('audio-true');
+    } else {
+        playGameAudio('audio-false');
+    }
+    
+    // Calculate time spent
+    const endTime = new Date();
+    const timeSpent = (endTime - startTime) / 1000; // in seconds
+    console.log(`Game completed in ${timeSpent} seconds with score ${score}`);
 }
 
-// Show next song
-function showNextSong() {
-    currentSongIndex = (currentSongIndex + 1) % songs.length;
-    loadSong();
+// Utility function to shuffle array
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
 }
-
-// Update song navigation buttons
-function updateSongNavButtons() {
-    prevSongBtn.disabled = currentSongIndex === 0;
-    nextSongBtn.disabled = currentSongIndex === songs.length - 1;
-}
-
-// Update score display
-function updateScore() {
-    scoreDisplay.textContent = `Score: ${score}`;
-    scoreDisplay.classList.add('animate__animated', 'animate__bounce');
-    setTimeout(() => {
-        scoreDisplay.classList.remove('animate__animated', 'animate__bounce');
-    }, 1000);
-}
-
-// Start game when DOM is loaded
-document.addEventListener('DOMContentLoaded', initGame);

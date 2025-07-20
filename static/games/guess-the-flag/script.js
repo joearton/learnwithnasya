@@ -126,11 +126,11 @@ function checkAnswer(selectedOption) {
     if (selectedOption === currentCountry.name) {
         score++;
         showFeedback("Correct! Well done!", "success");
-        playGameAudio('game-audio-true');
+        playGameAudio('audio-true');
         countryName.textContent = currentCountry.name;
     } else {
         showFeedback(`Oops! It's ${currentCountry.name}`, "danger");
-        playGameAudio('game-audio-false');
+        playGameAudio('audio-false');
     }
     
     updateScore();

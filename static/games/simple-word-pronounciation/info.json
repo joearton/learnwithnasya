@@ -1,0 +1,12 @@
+{
+    "title": "Simple Word Pronunciation",
+    "description": "A game to help children improve their English pronunciation skills through fun word exercises.",
+    "author": "Joe Arton",
+    "version": "1.0",
+    "difficulty": "Easy",
+    "categories": "Pronunciation",
+    "tags": ["english", "kids", "speaking"],
+    "skills": ["speaking", "listening"],
+    "ages": "5-10",
+    "thumbnail_alt": "A cartoon child speaking with speech bubbles"
+}

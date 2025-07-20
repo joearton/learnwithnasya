@@ -1,8 +1,12 @@
 {
     "title": "Read Random Sentence",
-    "description": "Practice reading simple random English sentences",
-    "author": "Your Name",
-    "version": "1.0",
+    "description": "Practice reading simple and random English sentences to improve pronunciation and fluency.",
+    "author": "Joe Arton",
+    "version": "1.0.0",
     "difficulty": "easy",
-    "thumbnail_alt": "Illustration of sentence game"
+    "categories": "Reading, Speaking",
+    "tags": ["reading", "sentences", "english practice", "fluency", "language learning"],
+    "skills": ["reading", "speaking"],
+    "ages": "6-12",
+    "thumbnail_alt": "Illustration of a reading game with random English sentences"
 }

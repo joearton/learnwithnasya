@@ -243,10 +243,10 @@ async function checkAnswer(selectedIndex) {
     if (selectedIndex === q.correct) {
         score++;
         showFeedback("Correct! 🎉", "success");
-        playGameAudio('game-audio-true');
+        playGameAudio('audio-true');
     } else {
         showFeedback(`Oops! Correct answer: ${q.options[q.correct]}`, "danger");
-        playGameAudio('game-audio-false');
+        playGameAudio('audio-false');
     }
     
     updateScore();

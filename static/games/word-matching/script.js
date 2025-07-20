@@ -111,12 +111,12 @@ function checkAnswer() {
     if (selectedButton.textContent === words[currentWordIndex].definition) {
         feedback.textContent = "Correct! Well done!";
         feedback.style.color = "green";
-        playGameAudio('game-audio-true');
+        playGameAudio('audio-true');
         score++;
     } else {
         feedback.textContent = `Incorrect. The correct definition is: ${words[currentWordIndex].definition}`;
         feedback.style.color = "red";
-        playGameAudio('game-audio-false');
+        playGameAudio('audio-false');
     }
     
     updateScore();

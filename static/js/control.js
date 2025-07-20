@@ -17,6 +17,7 @@ function playGameAudio(audioId) {
 }
 
 
+
 async function speak(text) {
     const response = await fetch('/speak', {
         method: 'POST',
@@ -31,7 +32,7 @@ async function speak(text) {
     const blob = await response.blob();
     const audioUrl = URL.createObjectURL(blob);
 
-    const audio = document.getElementById("game-audio-speech");
+    const audio = document.getElementById("audio-speech");
     audio.src = audioUrl;
     audio.style.display = 'block';
     audio.play();
@@ -57,21 +58,12 @@ function setupClickToSpeak() {
     elements.forEach(el => {
         // Pastikan hanya ditambahkan sekali
         if (!el.querySelector('.speaker-icon')) {
-            el.style.position = 'relative'; // buat elemen sebagai parent posisi relatif
+            el.style.position = 'relative'; 
 
             const icon = document.createElement('div');
             icon.className = 'speaker-icon';
-            icon.title = 'Klik untuk dengar';
-            icon.innerHTML = '<i class="fa fa-play-circle"></i>'; // pastikan font-awesome dimuat
-            icon.style.position = 'absolute';
-            icon.style.top = '5px';
-            icon.style.right = '5px';
-            icon.style.cursor = 'pointer';
-            icon.style.zIndex = '10';
-            icon.style.fontSize = '1.2em';
-            icon.style.color = '#007bff';
-
-
+            icon.title = 'Click to listen';
+            icon.innerHTML = '<i class="fa fa-play-circle"></i>';
             icon.addEventListener('click', (e) => {
                 var textContent = el.textContent.trim();
                 var cleanedText = textContent.replace(/[^a-zA-Z0-9.,\s]/g, '');
@@ -101,6 +93,4 @@ const observer = new MutationObserver(mutations => {
 
 // Jalankan observer terhadap perubahan DOM
 observer.observe(document.body, { childList: true, subtree: true });
-
-
 document.addEventListener('DOMContentLoaded', setupClickToSpeak);

@@ -1,66 +1,31 @@
 {% extends "base_home.html" %}
 
-
-{% block title %}English Learning Games{% endblock %}
+{% block title %}
+    Learn and Play
+{% endblock %}
 
 
 {% block content %}
-<section class="fairy-bg py-5 mb-5 text-center text-dark sparkle">
-  <div class="cloud"></div> <!-- Floating cloud layer -->
+    <section class="fairy-bg mb-5 text-center text-dark sparkle">
+        {% include "elements/homepage-jumbotron.html" %}
+    </section>
 
-  <div class="container position-relative py-5" style="z-index: 1;">
-    <h1 class="display-4 fw-bold mb-3 animate__animated animate__bounceInDown">
-      🧚 Welcome to <span class="text-primary">LearnWithNasya!</span> 🎉
-    </h1>
-    <p class="lead fs-4 mb-4 animate__animated animate__fadeInUp animate__delay-1s">
-      Magical games that make learning English fun 🌈🎮📚
-    </p>
-    <div class="d-flex justify-content-center gap-3 animate__animated animate__fadeInUp animate__delay-2s">
-      <a href="#games" class="btn btn-warning btn-lg rounded-pill px-4 shadow btn-animated">
-        <i class="fas fa-unicorn me-2"></i> Start Adventure
-      </a>
-      <a href="#" class="btn btn-outline-dark btn-lg rounded-pill px-4 shadow-sm btn-animated">
-        <i class="fas fa-book-open me-2"></i> Learn More
-      </a>
-    </div>
-  </div>
-</section>
-
-
-
-
-<!-- Games Section -->
-<section id="games" class="container mb-5">
-    <div class="text-center mb-5">
-        <h2 class="fw-bold">Our Learning Games</h2>
-        <p class="text-muted">Select a game to start learning while having fun!</p>
-    </div>
-
-    <div class="row g-4">
-        {% for game in games %}
-            <div class="col-lg-3 col-md-4 mb-4">
-                <div class="card game-card h-100 border-0 shadow-sm hover-shadow transition-all">
-                    <div class="card-img-top overflow-hidden">
-                        <img src="{{ url_for('static', filename=game.thumbnail) }}" class="img-fluid w-100 game-thumbnail"  alt="{{ game.thumbnail_alt|default(game.title) }}">
-                    </div>
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-start mb-3">
-                            <h5 class="card-title h6 fw-bold mb-0">{{ game.title }}</h5>
-                            <span class="badge bg-success rounded-pill">Ages 5+</span>
-                        </div>
-                        <p class="m-0 text-muted">{{ game.description }}</p>
-                    </div>
-                    <div class="card-footer bg-transparent border-0 ">
-                        <a href="{{ url_for('play_game', game_id=game.id) }}" 
-                           class="btn btn-primary rounded-pill w-100 py-2">
-                           <i class="fas fa-play-circle me-2"></i> Play Now
-                        </a>
-                    </div>
-                </div>
+    <section id="games" class="py-6 py-lg-8 bg-light mb-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-6 fw-bold mb-3 text-gradient-primary">Our Learning Adventures</h2>
+                <p class="lead text-muted mb-4">Interactive games that make learning English fun!</p>
+                <div class="divider mx-auto bg-primary" style="width: 80px; height: 3px;"></div>
             </div>
-        {% endfor %}
-    </div>
-</section>
+            {% include "elements/game-list.html" %}
+            <div class="text-center mt-6">
+                <a href="#" class="btn btn-outline-primary btn-lg px-5 rounded-pill">
+                    <i class="fas fa-plus-circle me-2"></i> View All Games
+                </a>
+            </div>
+        </div>
+    </section>
+
 
 <!-- Features Section -->
 <section class="bg-white py-5">
@@ -69,7 +34,7 @@
             <h2 class="fw-bold">Why Choose Our Games?</h2>
             <p class="text-muted">Designed for effective English learning</p>
         </div>
-        
+
         <div class="row g-4">
             <div class="col-md-4">
                 <div class="text-center p-4">
@@ -105,53 +70,86 @@
 
 
 {% block styles %}
-    <style>
-        .fairy-bg {
-            background: linear-gradient(120deg, #f6d365, #fda085, #fbc2eb, #a1c4fd);
-            position: relative;
-            overflow: hidden;
+<style>
+    .fairy-bg {
+        background: linear-gradient(135deg, #e0f7ff, #ffffff);
+        position: relative;
+        overflow: hidden;
+        padding-top: 100px;
+        padding-bottom: 100px;
+    }
+
+    /* Floating clouds (optional) */
+    .cloud {
+        top: 0;
+        left: 0;
+        position: absolute;
+        background: url("{{ url_for('static', filename='images/cloud.png') }}");
+        width: 100%;
+        height: 100%;
+        opacity: 0.27;
+        animation: floatCloud 60s linear infinite;
+        z-index: 0;
+    }
+
+    @keyframes floatCloud {
+        0% {
+            background-position: 0 0;
         }
 
-        /* Floating clouds (optional) */
-        .cloud {
-            position: absolute;
-            background: url('https://www.transparenttextures.com/patterns/clouds.png');
-            width: 100%;
-            height: 100%;
-            opacity: 0.2;
-            animation: floatCloud 60s linear infinite;
-            z-index: 0;
+        100% {
+            background-position: 1000px 0;
+        }
+    }
+
+    /* Sparkle (optional particle effect) */
+    .sparkle {
+        position: relative;
+    }
+
+    .sparkle::after {
+        content: "✨";
+        position: absolute;
+        font-size: 1.5rem;
+        animation: sparkleAnim 2s infinite alternate;
+        opacity: 0.6;
+        top: 0;
+        left: 0;
+        z-index: 2;
+    }
+
+    @keyframes sparkleAnim {
+        0% {
+            top: 10%;
+            left: 90%;
+            opacity: 0.3;
+            transform: scale(1);
         }
 
-        @keyframes floatCloud {
-            0% { background-position: 0 0; }
-            100% { background-position: 1000px 0; }
+        100% {
+            top: 30%;
+            left: 70%;
+            opacity: 0.8;
+            transform: scale(1.5);
         }
+    }
 
-        /* Sparkle (optional particle effect) */
-        .sparkle::after {
-            content: "✨";
-            position: absolute;
-            font-size: 1.5rem;
-            animation: sparkleAnim 2s infinite alternate;
-            opacity: 0.6;
-        }
+    .btn-animated:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+    }
 
-        @keyframes sparkleAnim {
-            0% { top: 10%; left: 90%; opacity: 0.3; transform: scale(1); }
-            100% { top: 30%; left: 70%; opacity: 0.8; transform: scale(1.5); }
-        }
+    .btn-animated {
+        transition: all 0.3s ease-in-out;
+    }
 
-        .btn-animated:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
-        }
+    #games .fas {
+        min-width: 21px;
+    }
 
-        .btn-animated {
-            transition: all 0.3s ease-in-out;
-        }
-    </style>
+</style>
 {% endblock %}
+
 
 {% block scripts %}
 <!-- Add any additional scripts here -->
@@ -160,7 +158,6 @@
     document.addEventListener('DOMContentLoaded', function() {
         // Animation for game cards when they come into view
         const gameCards = document.querySelectorAll('.game-card');
-        
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -168,8 +165,9 @@
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.1 });
-        
+        }, {
+            threshold: 0.1
+        });
         gameCards.forEach(card => {
             observer.observe(card);
         });

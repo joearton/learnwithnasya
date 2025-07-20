@@ -1,8 +1,12 @@
 {
-    "title": "Sing Along English",
-    "description": "Practice reading English through popular song lyrics",
-    "author": "Your Name",
+    "title": "Sing & Learn English",
+    "description": "A fun game for kids to learn English by singing popular children's songs",
+    "author": "Joe Arton",
     "version": "1.0",
-    "difficulty": "medium",
-    "thumbnail_alt": "Illustration of karaoke game"
+    "difficulty": "Easy",
+    "categories": "Language Learning",
+    "tags": ["English", "Songs", "Kids"],
+    "skills": ["listening", "speaking", "reading"],
+    "ages": "5-12",
+    "thumbnail_alt": "Children singing with music notes around them"
 }

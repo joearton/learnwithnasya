@@ -1,0 +1,230 @@
+{% extends 'base_home.html' %}
+
+{% block title %}
+  Contact Us | Learn With Nasya
+{% endblock %}
+
+{% block content %}
+  <section class="contact-section py-6 py-lg-8">
+    <div class="container-fluid px-lg-6">
+      <div class="row justify-content-center">
+        <div class="col-xxl-10">
+          <div class="text-center mb-6 py-5">
+            <h1 class="display-3 fw-bold text-primary mb-3">Get In Touch</h1>
+            <p class="lead text-muted mb-4">
+              We'd love to hear your feedback about <span class="text-gradient fw-semibold">Learn With Nasya</span>
+            </p>
+            <div class="divider mx-auto bg-primary opacity-25" style="height: 2px; width: 120px;"></div>
+          </div>
+
+          <div class="contact-card card border-0 shadow-lg overflow-hidden mb-5">
+            <div class="row g-0">
+              <!-- Left Side - Contact Info -->
+              <div class="col-lg-5 bg-gradient-primary text-white p-5 p-lg-6">
+                <div class="d-flex flex-column h-100">
+                  <div class="mb-5">
+                    <h2 class="text-white mb-4">Contact Information</h2>
+                    <p class="text-white-75">Have questions, suggestions, or partnership inquiries? Reach out through any of these channels.</p>
+                  </div>
+
+                  <div class="mt-auto">
+                    <div class="contact-method d-flex mb-4">
+                      <div class="contact-icon bg-white bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-4" style="width: 48px; height: 48px;">
+                        <i class="fas fa-envelope fs-5 text-white"></i>
+                      </div>
+                      <div>
+                        <h5 class="text-white mb-1">Email Us</h5>
+                        <a href="mailto:hello@learnwithnasya.com" class="text-white-75">hello@learnwithnasya.com</a>
+                      </div>
+                    </div>
+
+                    <div class="contact-method d-flex">
+                      <div class="contact-icon bg-white bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-4" style="width: 48px; height: 48px;">
+                        <i class="fas fa-map-marker-alt fs-5 text-white"></i>
+                      </div>
+                      <div>
+                        <h5 class="text-white mb-1">Our Location</h5>
+                        <p class="text-white-75 mb-0">Jakarta, Indonesia</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Side - Social & Form -->
+              <div class="col-lg-7 p-5 p-lg-6">
+                <div class="h-100 d-flex flex-column">
+                  <!-- Social Media Section -->
+                  <div class="mb-5">
+                    <h3 class="mb-4">Connect With Us</h3>
+                    <div class="social-links row g-3">
+                      <div class="col-sm-6">
+                        <a href="https://github.com/joearton" target="_blank" class="social-link d-flex align-items-center p-3 rounded-3 text-decoration-none">
+                          <i class="fab fa-github fs-4 me-3"></i>
+                          <span>GitHub</span>
+                        </a>
+                      </div>
+                      <div class="col-sm-6">
+                        <a href="https://x.com/joearton" target="_blank" class="social-link d-flex align-items-center p-3 rounded-3 text-decoration-none">
+                          <i class="fab fa-x-twitter fs-4 me-3"></i>
+                          <span>Twitter</span>
+                        </a>
+                      </div>
+                      <div class="col-sm-6">
+                        <a href="https://linkedin.com/in/joearton" target="_blank" class="social-link d-flex align-items-center p-3 rounded-3 text-decoration-none">
+                          <i class="fab fa-linkedin fs-4 me-3"></i>
+                          <span>LinkedIn</span>
+                        </a>
+                      </div>
+                      <div class="col-sm-6">
+                        <a href="https://instagram.com/joe_arton" target="_blank" class="social-link d-flex align-items-center p-3 rounded-3 text-decoration-none">
+                          <i class="fab fa-instagram fs-4 me-3"></i>
+                          <span>Instagram</span>
+                        </a>
+                      </div>
+                      <div class="col-sm-6">
+                        <a href="https://youtube.com/@joearton" target="_blank" class="social-link d-flex align-items-center p-3 rounded-3 text-decoration-none">
+                          <i class="fab fa-youtube fs-4 me-3"></i>
+                          <span>YouTube</span>
+                        </a>
+                      </div>
+                      <div class="col-sm-6">
+                        <a href="https://facebook.com/joearton" target="_blank" class="social-link d-flex align-items-center p-3 rounded-3 text-decoration-none">
+                          <i class="fab fa-facebook fs-4 me-3"></i>
+                          <span>Facebook</span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Contact Form -->
+                  <div class="mt-auto">
+                    <h3 class="mb-4">Send Us a Message</h3>
+                    <form class="contact-form">
+                      <div class="row g-3">
+                        <div class="col-md-6">
+                          <input type="text" class="form-control form-control-lg" placeholder="Your Name" required />
+                        </div>
+                        <div class="col-md-6">
+                          <input type="email" class="form-control form-control-lg" placeholder="Email Address" required />
+                        </div>
+                        <div class="col-12">
+                          <textarea class="form-control form-control-lg" rows="4" placeholder="Your Message" required></textarea>
+                        </div>
+                        <div class="col-12">
+                          <button type="submit" class="btn btn-primary btn-lg w-100"><i class="fas fa-paper-plane me-2"></i> Send Message</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+
+{% block styles %}
+<style>
+  /* Contact Section Styles */
+  .contact-section {
+    background-color: #f8f9fa;
+  }
+
+  .container-fluid.px-lg-6 {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+  @media (min-width: 1400px) {
+    .col-xxl-10 {
+      max-width: 1400px;
+    }
+  }
+
+  .contact-card {
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+
+  .bg-gradient-primary {
+    background: linear-gradient(135deg, #3a7bd5 0%, #00d2ff 100%);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, #3a7bd5 0%, #00d2ff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Social Links */
+  .social-link {
+    color: #212529;
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+    border: 1px solid #e9ecef;
+  }
+
+  .social-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
+    color: #fff;
+  }
+
+  .social-link.github:hover { background-color: #333; border-color: #333; }
+  .social-link.twitter:hover { background-color: #000; border-color: #000; }
+  .social-link.linkedin:hover { background-color: #0a66c2; border-color: #0a66c2; }
+  .social-link.instagram:hover { 
+    background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
+    border-color: transparent;
+  }
+  .social-link.youtube:hover { background-color: #ff0000; border-color: #ff0000; }
+  .social-link.facebook:hover { background-color: #1877f2; border-color: #1877f2; }
+
+  /* Form Styles */
+  .contact-form .form-control {
+    padding: 1rem 1.25rem;
+    border: 1px solid #dee2e6;
+    transition: all 0.3s;
+  }
+
+  .contact-form .form-control:focus {
+    border-color: #3a7bd5;
+    box-shadow: 0 0 0 0.25rem rgba(58, 123, 213, 0.25);
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 991.98px) {
+    .container-fluid.px-lg-6 {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+    
+    .contact-card .col-lg-5,
+    .contact-card .col-lg-7 {
+      padding: 3rem !important;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .container-fluid.px-lg-6 {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+    
+    .contact-card .col-lg-5,
+    .contact-card .col-lg-7 {
+      padding: 2rem !important;
+    }
+    
+    .display-3 {
+      font-size: 2.5rem;
+    }
+  }  
+</style>
+{% endblock %}

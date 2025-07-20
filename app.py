@@ -3,9 +3,11 @@ import io
 from config import *
 from gtts import gTTS
 from helpers.metadata import load_game_metadata
+from helpers.game import get_games_list
 from flask import (
     Flask,
     request,
+    abort,
     send_file,
     render_template,
     render_template_string
@@ -20,15 +22,21 @@ app.config['GAMES_DIR'] = GAME_DIR
 
 @app.route('/')
 def index():
-    games     = []
-    games_dir = app.config['GAMES_DIR']
-    if not os.path.exists(games_dir):
-        return render_template('index.html', games = games)
-    for game_id in os.listdir(games_dir):
-        game_info = load_game_metadata(game_id)
-        if game_info:
-            games.append(game_info)            
-    return render_template('index.html', games = games)
+    sort_mode = request.args.get('sort', 'name')
+    limit = 24
+
+    filters = {
+        'categories': request.args.get('category'),
+        'tags': request.args.get('tag'),
+        'skills': request.args.get('skill'),
+        'author': request.args.get('author'),
+    }
+
+    # Hilangkan filter yang tidak diisi (opsional)
+    filters = {k: v for k, v in filters.items() if v}
+
+    games = get_games_list(sort_mode=sort_mode, limit=limit, filters=filters)
+    return render_template('index.html', games=games)
 
 
 
@@ -67,6 +75,16 @@ def speak():
         download_name='speech.mp3'
     )
 
+
+@app.route('/page/<page_name>')
+def render_static_page(page_name):
+    template_path = f'pages/{page_name}.html'
+    full_path = os.path.join(app.template_folder or 'templates', template_path)
+    
+    if os.path.exists(full_path):
+        return render_template(template_path)
+    else:
+        abort(404)
 
 
 

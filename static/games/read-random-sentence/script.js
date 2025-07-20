@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     randomButton.addEventListener('click', () => {
-        playGameAudio('game-audio-ding');
+        playGameAudio('audio-ding');
 
         if (remainingSentences.length === 0) {
             sentenceDisplay.textContent = "All sentences have been shown!";

@@ -2,7 +2,7 @@
 
 Welcome to **Learn With Nasya** — a fun and interactive platform designed to help non-native children learn to read, pronounce, and understand English through simple games 🗣️💡.
 
-Inspired by the real learning journey of a child named Nasya, this project aims to create an accessible, personalized educational tool that listens, transcribes, and provides constructive feedback — just like a patient and encouraging teacher.
+Inspired by the real learning journey of a child named Nasya, this project aims to create an accessible, personalized educational tool that listens, transcribes, and provides constructive feedback — just like a patient and encouraging teacher. This is just for fun project.
 
 ---
 

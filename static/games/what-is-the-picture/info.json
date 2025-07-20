@@ -1,0 +1,12 @@
+{
+    "title": "What Picture is This?",
+    "description": "A fun game where children match pictures with English words to improve vocabulary",
+    "author": "Joe Arton",
+    "version": "1.0",
+    "difficulty": "Easy",
+    "categories": "Vocabulary",
+    "tags": ["english", "vocabulary", "kids"],
+    "skills": ["reading", "listening"],
+    "ages": "5-10",
+    "thumbnail_alt": "Cartoon children learning English"
+}

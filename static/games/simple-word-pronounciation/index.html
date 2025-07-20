@@ -1,0 +1,81 @@
+{% extends "base_game.html" %}
+
+{% block title %}Fun Pronunciation Practice{% endblock %}
+
+{% block game %}
+<div class="container py-4 pronunciation-game">
+    {% include "elements/check_sr_support.html" %}
+    <div class="text-center mb-4">
+        <h1 class="display-5 fw-bold text-primary">Fun Pronunciation Practice</h1>
+        <p class="lead">Speak the word clearly and see if the computer understands you!</p>
+    </div>
+
+    <div id="start-screen" class="text-center">
+        <div class="card border-primary mx-auto" style="max-width: 900px;">
+            <div class="card-body">
+                <h2 class="card-title text-primary">Ready to Play?</h2>
+                <p class="card-text">Click the button below to start practicing your pronunciation!</p>
+                <button id="start-btn" class="btn btn-primary btn-lg px-4 gap-3">
+                    <i class="fas fa-play me-2"></i>Start Game
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="game-screen" class="d-none">
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-8">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <span>Progress: <span id="progress">0</span>/50</span>
+                        <span>Score: <span id="score">0</span></span>
+                    </div>
+                    <div class="card-body text-center py-4">
+                        <div class="mb-4">
+                            <div class="speech-bubble p-3 bg-light rounded d-inline-block position-relative">
+                                <h2 id="current-word" class="display-4 mb-0 click-to-speak"></h2>
+                                <div class="speech-bubble-arrow"></div>
+                            </div>
+                        </div>
+                        
+                        <button id="speak-btn" class="btn btn-success btn-lg me-2">
+                            <i class="fas fa-microphone me-2"></i>Speak
+                        </button>
+                        <button id="repeat-btn" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-volume-up me-2"></i>Hear Again
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="feedback alert d-none mb-3"></div>
+                <div class="progress mb-3" style="height: 20px;">
+                    <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                </div>
+                <div class="text-center">
+                    <p id="time-elapsed" class="text-muted">Time: 0s</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="result-screen" class="text-center d-none">
+        <div class="card border-success mx-auto" style="max-width: 600px;">
+            <div class="card-body">
+                <h2 class="card-title text-success">Great Job!</h2>
+                <div class="result-details mb-4">
+                    <p>You pronounced <span id="correct-count" class="fw-bold">0</span> out of 50 words correctly!</p>
+                    <p class="display-4 fw-bold" id="final-score">0</p>
+                    <p>Time: <span id="final-time">0s</span></p>
+                </div>
+                <button id="restart-btn" class="btn btn-success btn-lg px-4 me-2">
+                    <i class="fas fa-redo me-2"></i>Play Again
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

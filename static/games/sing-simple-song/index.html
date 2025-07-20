@@ -1,38 +1,67 @@
 {% extends "base_game.html" %}
 
-{% block title %}Sing Along English{% endblock %}
+{% block title %}Sing & Learn English{% endblock %}
 
 {% block game %}
-<div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="mb-0">English Lyrics Practice</h1>
-        <div class="badge bg-success fs-6" id="score">Score: 0</div>
+<div class="container-fluid d-flex flex-column min-vh-100 p-3">
+    <!-- Start Screen -->
+    <div id="start-screen" class="text-center my-auto">
+        <h1 class="click-to-speak text-primary mb-4">Sing & Learn English</h1>
+        <p class="lead mb-5">Learn English by singing fun songs!</p>
+        <button id="start-btn" class="btn btn-primary btn-lg px-5 py-3 fs-4">
+            <i class="fas fa-music me-2"></i>Start Singing!
+        </button>
     </div>
 
-    <div class="card mb-4">
-        <div class="card-header bg-primary text-white d-flex justify-content-between">
-            <button id="prevSongBtn" class="btn btn-sm btn-outline-light">
-                <i class="fa fa-arrow-left"></i>
-            </button>
-            <h2 id="songTitle" class="mb-0 text-center">Song Title</h2>
-            <button id="nextSongBtn" class="btn btn-sm btn-outline-light">
-                <i class="fa fa-arrow-right"></i>
-            </button>
-        </div>
-        <div class="card-body text-center py-5">
-            <div id="lyricsDisplay" class="lyrics-container">
-                <p class="display-6">Press Next to begin</p>
+    <!-- Song Selection Screen -->
+    <div id="song-selection" class="d-none text-center my-auto">
+        <h2 class="click-to-speak text-primary mb-4">Choose a Song</h2>
+        <div class="row g-3 justify-content-center" id="song-choices"></div>
+        <button id="back-to-start" class="btn btn-outline-secondary mt-5">
+            <i class="fas fa-arrow-left me-2"></i>Back
+        </button>
+    </div>
+
+    <!-- Singing Screen -->
+    <div id="singing-screen" class="d-none my-auto w-100">
+        <div class="row mb-4">
+            <div class="col-12 text-center">
+                <h2 id="song-title" class="click-to-speak text-primary"></h2>
+                <div class="progress mt-3">
+                    <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" 
+                         role="progressbar" style="width: 0%"></div>
+                </div>
+                <p class="mt-2">Score: <span id="score">0</span>/100</p>
             </div>
         </div>
-    </div>
-
-    <div class="d-flex justify-content-center gap-3">
-        <button id="prevBtn" class="btn btn-secondary btn-lg" disabled>
-            <i class="bi bi-arrow-left me-2"></i>Previous
-        </button>
-        <button id="nextBtn" class="btn btn-primary btn-lg">
-            <i class="bi bi-arrow-right me-2"></i>Next
-        </button>
+        
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div id="lyrics-container" class="lyrics-box p-3 mb-4"></div>
+                        
+                        <div class="d-flex justify-content-center gap-3">
+                            <button id="play-btn" class="btn btn-success btn-lg">
+                                <i class="fas fa-play me-2"></i>Play Song
+                            </button>
+                            <button id="next-song-btn" class="btn btn-primary btn-lg">
+                                <i class="fas fa-forward me-2"></i>Next Song
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-4">
+            <button id="back-to-songs" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Choose Another Song
+            </button>
+        </div>
     </div>
 </div>
+
+<!-- Audio Elements -->
+<audio id="song-audio" controls class="d-none"></audio>
 {% endblock %}

@@ -26,6 +26,23 @@ body {
 }
 
 
+.click-to-speak {
+    position: relative;
+    padding-right: 23px; /* agar tidak menabrak ikon */
+}
+
+.speaker-icon {
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+    font-size: 1.2em;
+    color: #007bff;
+    cursor: pointer;
+    z-index: 10;
+}
+
+
 /* Game cards */
 .game-card {
     border-radius: 16px;

@@ -1,0 +1,71 @@
+<div class="row g-3 g-lg-4 justify-content-center">
+    {% for game in games %}
+    <div class="col-xl-3 col-lg-4 col-md-6 mb-5">
+        <div class="card game-card h-100 border-0 shadow-sm overflow-hidden transition-all hover-transform">
+            <div class="card-img-top position-relative overflow-hidden">
+                <img src="{{ url_for('static', filename=game.thumbnail) }}"
+                    class="img-fluid w-100 game-thumbnail" alt="{{ game.thumbnail_alt|default(game.title) }}"
+                    style="height: 200px; object-fit: cover;">
+                <div class="game-badge position-absolute top-0 end-0 m-3">
+                    <span class="badge bg-success bg-opacity-90 rounded-pill px-3 py-2">
+                        <i class="fas fa-child me-1"></i> Ages {{ game.ages|default("3") }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="card-body p-3">
+                <div class="mb-3 text-center">
+                    <h3 class="h5 fw-bold mb-0">{{ game.title }}</h3>
+                </div>
+                <p class="text-muted mb-3">{{ game.description }}</p>
+
+                <div class="game-features mb-3">
+
+                    <!-- Skills -->
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="fas fa-universal-access text-primary me-2"></i>
+                        <small>
+                            {% if game.skills is iterable and game.skills is not string %}
+                                {{ game.skills | map('title') | join(', ') }}
+                            {% else %}
+                                {{ game.skills | default('Common') | title }}
+                            {% endif %}
+                        </small>
+                    </div>
+
+                    <!-- Tags -->
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="fas fa-tag text-primary me-2"></i>
+                        <small>
+                            {% if game.tags is iterable and game.tags is not string %}
+                                {{ game.tags | map('title') | join(', ') }}
+                            {% else %}
+                                {{ game.tags | default('Game') | title }}
+                            {% endif %}
+                        </small>
+                    </div>
+
+                    <!-- Categories -->
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-list-alt text-primary me-2"></i>
+                        <small>
+                            {% if game.categories is iterable and game.categories is not string %}
+                                {{ game.categories | map('title') | join(', ') }}
+                            {% else %}
+                                {{ game.categories | default('Game') | title }}
+                            {% endif %}
+                        </small>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="card-footer bg-transparent border-0 p-4 pt-0">
+                <a href="{{ url_for('play_game', game_id=game.id) }}" class="btn btn-primary btn-gradient rounded-pill w-100 py-3 click-sound">
+                    <i class="fas fa-play-circle me-2"></i> Start Learning
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>

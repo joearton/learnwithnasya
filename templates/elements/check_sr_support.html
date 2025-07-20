@@ -1,0 +1,40 @@
+<!-- Browser Support Alert -->
+<div id="browserSupportAlert" class="alert alert-warning alert-dismissible fade show d-none mb-4">
+    <i class="fas fa-exclamation-triangle me-2"></i>
+    <span id="browserSupportText"></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+
+<script>
+    // Global DOM elements for browser support
+    let browserSupportAlert, browserSupportText;
+
+    function checkBrowserSupport() {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        
+        if (!SpeechRecognition) {
+            const supportedBrowsers = [
+                "Google Chrome (Desktop & Android)",
+                "Microsoft Edge",
+                "Safari (macOS/iOS 14.5+)",
+                "Opera"
+            ];
+            
+            browserSupportText.innerHTML = `Speech recognition not supported. Try on: <strong>${supportedBrowsers.join(', ')}</strong>`;
+            browserSupportAlert.classList.remove('d-none');
+            return false;
+        }
+        return true;
+    }
+
+    // Initialize browser support check when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get DOM elements
+        browserSupportAlert = document.getElementById('browserSupportAlert');
+        browserSupportText = document.getElementById('browserSupportText');
+        
+        // Check support
+        checkBrowserSupport();
+    });    
+</script>

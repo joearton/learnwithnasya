@@ -1,0 +1,12 @@
+{
+    "title": "Simple Picture Match",
+    "description": "Match English words to animated pictures to improve vocabulary and visual recognition.",
+    "author": "Joe Arton",
+    "version": "1.0.0",
+    "difficulty": "easy",
+    "categories": "Vocabulary, Visual Learning",
+    "tags": ["vocabulary", "matching", "pictures", "education", "kids", "english learning"],
+    "skills": ["reading", "visual recognition"],
+    "ages": "4-8",
+    "thumbnail_alt": "Illustration of a picture matching game showing words and animated objects"
+}

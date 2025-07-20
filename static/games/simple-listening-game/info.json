@@ -1,7 +1,11 @@
 {
-    "title": "English Listening Game",
+    "title": "Simple Listening Game",
     "description": "Practice English listening comprehension",
-    "author": "Your Name",
+    "author": "Joe Arton",
+    "categories": ["Vocabulary", "Beginner English"],
+    "tags": ["english", "words", "multiple choice"],
+    "skills": ["reading", "listening", "word recognition"],
+    "ages": "5-9", 
     "version": "1.0",
     "difficulty": "easy",
     "thumbnail_alt": "Children listening to English words"

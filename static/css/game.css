@@ -1,0 +1,78 @@
+.game-toolbox {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 1050;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.toolbox-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #4a4a4a;
+    z-index: 1060;
+}
+
+.toolbox-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    background: white;
+}
+
+.toolbox-btn i {
+    font-size: 1.6rem;
+}
+
+.audio-controls-container {
+    position: relative;
+}
+
+.audio-controls {
+    position: absolute;
+    bottom: calc(100%);
+    right: 0;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    padding: 25px;
+    width: 300px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(25px);
+    transition: all 0.3s ease;
+    z-index: 1100;
+}
+
+.audio-controls.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.confirmation-modal .modal-content {
+    border-radius: 12px;
+    overflow: hidden;
+    border: none;
+}
+
+.confirmation-modal .modal-header {
+    background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+    color: white;
+    border-bottom: none;
+}
+
+.confirmation-modal .modal-footer {
+    border-top: none;
+    padding: 1rem 1.5rem;
+}

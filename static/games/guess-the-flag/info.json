@@ -1,8 +1,12 @@
 {
     "title": "Guess the Flag",
-    "description": "Learn country names by recognizing their flags",
-    "author": "Your Name",
-    "version": "1.0",
+    "description": "Learn country names by recognizing their national flags. Great for geography and vocabulary practice.",
+    "author": "Joe Arton",
+    "version": "1.0.0",
     "difficulty": "easy",
-    "thumbnail_alt": "Illustration of flag guessing game"
+    "categories": "Geography, Vocabulary",
+    "tags": ["flags", "countries", "quiz", "education", "visual learning"],
+    "skills": ["reading", "listening"],
+    "ages": "7-12",
+    "thumbnail_alt": "Illustration of a flag guessing game with various country flags"
 }

@@ -1,8 +1,12 @@
 {
     "title": "Choose Word to Answer",
-    "description": "Practice reading English sentences",
-    "author": "Your Name",
+    "description": "A simple English vocabulary game where children choose the correct word that matches the question or picture.",
+    "author": "Joe Arton",
     "version": "1.0",
     "difficulty": "easy",
-    "thumbnail_alt": "Illustration of sentence game"
+    "categories": "vocabulary",
+    "tags": ["words", "beginner"],
+    "skills": ["reading", "speaking"],
+    "ages": "5-8",
+    "thumbnail_alt": "A colorful cartoon illustration of children playing with word bubbles"
 }
