@@ -17,7 +17,8 @@
                 <p class="lead text-muted mb-4">Interactive games that make learning English fun!</p>
                 <div class="divider mx-auto bg-primary" style="width: 80px; height: 3px;"></div>
             </div>
-            {% include "elements/game-list.html" %}
+            {% set col_size=3 %}
+            {% include "elements/game-iteration.html" %}
             <div class="text-center mt-6">
                 <a href="#" class="btn btn-outline-primary btn-lg px-5 rounded-pill">
                     <i class="fas fa-plus-circle me-2"></i> View All Games

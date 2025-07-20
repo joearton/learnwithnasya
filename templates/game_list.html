@@ -1,0 +1,249 @@
+{% extends "base_home.html" %}
+
+{% block title %}
+    Explore Our Game Collection | Next-Gen Gaming
+{% endblock %}
+
+{% block content %}
+<div class="game-explorer">
+    <!-- Hero Section -->
+    <div class="explorer-hero bg-dark text-white py-5 mb-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="display-4 fw-bold mb-3">Discover Your Next Adventure</h1>
+                    <p class="lead mb-4">Browse our curated collection of premium games across all genres and difficulty levels.</p>
+                    <div class="d-flex gap-3">
+                        <a href="#game-filters" class="btn btn-primary btn-lg px-4">Filter Games</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 d-none d-lg-block">
+                    <img src="{{ url_for('static', filename='images/game-controller-icon.svg') }}" alt="Game controller" class="img-fluid" style="opacity: 0.8;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <!-- Sidebar Filters -->
+            <div id="game-filters" class="col-lg-3 mb-4">
+                <div class="filter-sidebar bg-white p-4 rounded-4 shadow-sm">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h2 class="h4 text-uppercase fw-bold text-primary mb-0">Refine Search</h2>
+                        <button class="btn btn-sm btn-outline-secondary d-lg-none" onclick="toggleFilters()">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                    
+                    <form method="get" class="filter-form">
+                        <!-- Search Box -->
+                        <div class="mb-4">
+                            <label class="form-label small text-uppercase fw-bold">Search</label>
+                            <input type="text" name="search" class="form-control" placeholder="Game title or keywords" 
+                                   value="{{ request.args.get('search', '') }}">
+                        </div>
+                        
+                        <!-- Categories -->
+                        <div class="mb-4">
+                            <label class="form-label small text-uppercase fw-bold">Categories</label>
+                            <div class="filter-options">
+                                {% for cat in all_categories %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="categories" 
+                                           id="cat-{{ loop.index }}" value="{{ cat }}"
+                                           {% if cat in filters.get('categories', []) %}checked{% endif %}>
+                                    <label class="form-check-label" for="cat-{{ loop.index }}">{{ cat }}</label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <!-- Skills -->
+                        <div class="mb-4">
+                            <label class="form-label small text-uppercase fw-bold">Skills</label>
+                            <div class="filter-options">
+                                {% for skill in all_skills %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="skills" 
+                                           id="skill-{{ loop.index }}" value="{{ skill }}"
+                                           {% if skill in filters.get('skills', []) %}checked{% endif %}>
+                                    <label class="form-check-label" for="skill-{{ loop.index }}">{{ skill }}</label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <!-- Difficulty -->
+                        <div class="mb-4">
+                            <label class="form-label small text-uppercase fw-bold">Difficulty</label>
+                            <select name="difficulty" class="form-select">
+                                <option value="">Any Level</option>
+                                <option value="easy" {% if filters.get('difficulty') == 'easy' %}selected{% endif %}>Easy</option>
+                                <option value="medium" {% if filters.get('difficulty') == 'medium' %}selected{% endif %}>Medium</option>
+                                <option value="hard" {% if filters.get('difficulty') == 'hard' %}selected{% endif %}>Hard</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Sort -->
+                        <div class="mb-4">
+                            <label class="form-label small text-uppercase fw-bold">Sort By</label>
+                            <select name="sort" class="form-select">
+                                <option value="name" {% if sort_mode == 'name' %}selected{% endif %}>Name (A-Z)</option>
+                                <option value="random" {% if sort_mode == 'random' %}selected{% endif %}>Random</option>
+                            </select>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-funnel-fill me-2"></i>Apply Filters
+                            </button>
+                            <a href="{{ url_for('game_list') }}" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-counterclockwise me-2"></i>Reset
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="col-lg-9">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="h4 mb-0">Showing {{ games|length }} games</h2>
+                    <button class="btn btn-outline-primary d-lg-none" onclick="toggleFilters()">
+                        <i class="bi bi-funnel-fill me-2"></i>Filters
+                    </button>
+                </div>
+                
+                <!-- Game Grid -->
+                {% set col_size=4 %}
+                {% include "elements/game-iteration.html" %}
+
+
+                {% if pagination.total_pages > 1 %}
+                    <nav aria-label="Game pagination">
+                        <ul class="pagination justify-content-center mt-4">
+                            {% if pagination.page > 1 %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ url_for('game_list', page=pagination.page-1, search=search_query, sort=sort_mode, **filters) }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            {% endif %}
+
+                            {% for p in range(1, pagination.total_pages + 1) %}
+                                {% if p == pagination.page %}
+                                <li class="page-item active"><span class="page-link">{{ p }}</span></li>
+                                {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ url_for('game_list', page=p, search=search_query, sort=sort_mode, **filters) }}">{{ p }}</a>
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if pagination.page < pagination.total_pages %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ url_for('game_list', page=pagination.page+1, search=search_query, sort=sort_mode, **filters) }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+
+                    <div class="text-center text-muted small">
+                        Showing {{ (pagination.page - 1) * pagination.per_page + 1 }} - 
+                        {{ [pagination.page * pagination.per_page, pagination.total_games]|min }} 
+                        of {{ pagination.total_games }} games
+                    </div>
+                {% endif %}
+                
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    .game-explorer {
+        background-color: #f8f9fa;
+    }
+    
+    .explorer-hero {
+        background: linear-gradient(135deg, #2b5876 0%, #4e4376 100%);
+    }
+    
+    .filter-sidebar {
+        border: 1px solid #dee2e6;
+        position: static; /* Elemen posisi statis */
+    }
+    
+    .filter-options {
+        max-height: 200px;
+        overflow-y: auto;
+        padding-right: 8px;
+    }
+    
+    .filter-options::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    .filter-options::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+    
+    .filter-options::-webkit-scrollbar-thumb {
+        background: #adb5bd;
+        border-radius: 10px;
+    }
+    
+    .form-check-label {
+        font-size: 0.9rem;
+    }
+    
+    @media (max-width: 992px) {
+        .filter-sidebar {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 80%;
+            height: 100vh;
+            z-index: 1050;
+            overflow-y: auto;
+            transition: left 0.3s ease;
+        }
+        
+        .filter-sidebar.show {
+            left: 0;
+        }
+    }
+</style>
+
+<script>
+    function toggleFilters() {
+        const sidebar = document.querySelector('.filter-sidebar');
+        sidebar.classList.toggle('show');
+        
+        if (sidebar.classList.contains('show')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    }
+    
+    // Close filters when clicking outside on mobile
+    document.addEventListener('click', function(e) {
+        const sidebar = document.querySelector('.filter-sidebar');
+        const filterBtn = document.querySelector('[onclick="toggleFilters()"]');
+        
+        if (window.innerWidth < 992 && 
+            !sidebar.contains(e.target) && 
+            e.target !== filterBtn && 
+            !filterBtn.contains(e.target)) {
+            sidebar.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+    });
+</script>
+{% endblock %}
