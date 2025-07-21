@@ -25,7 +25,8 @@ def load_game_metadata(game_id):
         'path'      : game_path,
         'template'  : template_path,
         'style'     : f'games/{game_id}/style.css',
-        'script'    : f'games/{game_id}/script.js'
+        'script'    : f'games/{game_id}/script.js',
+        'viewed'    : 0,
     }
 
     # Cek thumbnail
@@ -45,3 +46,35 @@ def load_game_metadata(game_id):
             logger.warning(f'Gagal memuat info.json untuk game {game_id}: {e}')
 
     return game_info
+
+
+
+def update_game_metadata(game_id, key, value):
+    game_path = os.path.join(GAME_DIR, game_id)
+    info_path = os.path.join(game_path, 'info.json')
+
+    # Pastikan folder game ada
+    if not os.path.isdir(game_path):
+        raise FileNotFoundError(f"Folder game {game_id} tidak ditemukan.")
+
+    # Baca data lama (jika ada)
+    metadata = {}
+    if os.path.isfile(info_path):
+        try:
+            with open(info_path, 'r', encoding='utf-8') as f:
+                metadata = json.load(f)
+                if not isinstance(metadata, dict):
+                    metadata = {}
+        except (IOError, json.JSONDecodeError) as e:
+            print(f"[WARNING] Gagal membaca info.json: {e}")
+            metadata = {}
+
+    # Perbarui field
+    metadata[key] = value
+
+    # Simpan kembali ke info.json
+    try:
+        with open(info_path, 'w', encoding='utf-8') as f:
+            json.dump(metadata, f, ensure_ascii=False, indent=2)
+    except IOError as e:
+        raise IOError(f"Gagal menyimpan info.json untuk {game_id}: {e}")

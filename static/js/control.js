@@ -1,3 +1,7 @@
+let speechAudio = document.getElementById("audio-speech");
+let currentSpeech = null;
+
+
 function playGameAudio(audioId) {
     const audio = document.getElementById(audioId);
 
@@ -18,7 +22,21 @@ function playGameAudio(audioId) {
 
 
 
+function stopSpeech() {
+    if (speechAudio) {
+        speechAudio.pause();
+        speechAudio.currentTime = 0;
+    }
+    if (window.speechSynthesis && window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
+    }
+}
+
+
+
 async function speak(text) {
+    stopSpeech(); // Stop speech sebelumnya
+    
     const response = await fetch('/speak', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -32,15 +50,14 @@ async function speak(text) {
     const blob = await response.blob();
     const audioUrl = URL.createObjectURL(blob);
 
-    const audio = document.getElementById("audio-speech");
-    audio.src = audioUrl;
-    audio.style.display = 'block';
-    audio.play();
+    speechAudio.src = audioUrl;
+    speechAudio.style.display = 'block';
+    currentSpeech = speechAudio.play();
 }
 
 
 // Text-to-Speech
-function speakText(text) {
+function talk(text) {
     if ('speechSynthesis' in window) {
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = 'en-US';

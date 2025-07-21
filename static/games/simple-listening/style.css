@@ -1,0 +1,19 @@
+.game-container {
+    max-width: 900px;
+}
+
+.option-btn {
+    transition: all 0.3s;
+}
+
+.option-btn:hover {
+    transform: scale(1.02);
+}
+
+#feedback {
+    min-height: 2.5rem;
+}
+
+.card {
+    border-radius: 15px;
+}

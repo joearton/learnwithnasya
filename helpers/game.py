@@ -13,9 +13,9 @@ def normalize_filter_value(value):
         return [v.strip().lower() for v in value if v.strip()]
     return value
 
+    
 
-
-def get_games_list(sort_mode='name', page=1, per_page=8, limit=None, filters=None):
+def get_games_list(sort_mode='name', page=None, per_page=None, limit=None, filters=None):
     games_dir = GAME_DIR
     games = []
 
@@ -90,10 +90,9 @@ def get_games_list(sort_mode='name', page=1, per_page=8, limit=None, filters=Non
     else:
         games.sort(key=lambda g: g.get('title', '').lower())
 
-    # Handle pagination and limit
+    # Handle limit (if specified)
     if limit is not None:
         return games[:limit]
-    else:
-        start = (page - 1) * per_page
-        end = start + per_page
-        return games[start:end]
+    
+    return games    
+    

@@ -1,0 +1,556 @@
+{% extends "base_home.html" %}
+
+
+{% block title %}Game Statistic{% endblock %}
+
+
+{% block content %}
+<div class="container py-4">
+    <div class="stats-dashboard">
+        <!-- Modern Header Section -->
+        <div class="dashboard-header glass-morphism animate__animated animate__fadeIn">
+            <div class="header-content">
+                <div class="d-flex align-items-center mb-2">
+                    <h1 class="display-6 mb-0 fw-bold">
+                        <span class="text-gradient">{{ game.title }}</span>
+                    </h1>
+                    <span class="badge bg-dark bg-opacity-10 ms-3 fs-6 fw-normal">Analytics</span>
+                </div>
+                <p class="text-muted mb-0">Comprehensive engagement metrics for your learning experience</p>
+            </div>
+            <div class="header-actions">
+                <span class="badge bg-primary bg-opacity-10 text-primary pulse px-3 py-2">
+                    <i class="fas fa-circle me-2 small"></i>LIVE DATA
+                </span>
+            </div>
+        </div>
+
+        <!-- Summary Cards - Modern Grid -->
+        <div class="row g-4 mb-4">
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card glass-card animate__animated animate__fadeInUp">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="stat-icon bg-soft-primary me-3">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h5 class="stat-title mb-0">Total Plays</h5>
+                        </div>
+                        <div class="d-flex align-items-end justify-content-between">
+                            <div class="stat-value">{{ stats.total_visits }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6">
+                <div class="stat-card glass-card animate__animated animate__fadeInUp animate__delay-1">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="stat-icon bg-soft-success me-3">
+                                <i class="fas fa-user-shield"></i>
+                            </div>
+                            <h5 class="stat-title mb-0">Unique Learners</h5>
+                        </div>
+                        <div class="d-flex align-items-end justify-content-between">
+                            <div>
+                                <div class="stat-value">{{ stats.unique_visitor_count }}</div>
+                            </div>
+                            <div class="sparkline" id="unique-learners-sparkline"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-6 col-md-6">
+                <div class="stat-card glass-card animate__animated animate__fadeInUp animate__delay-2">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="stat-icon bg-soft-info me-3">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <h5 class="stat-title mb-0">Last Activity</h5>
+                        </div>
+                        <div class="d-flex align-items-end justify-content-between">
+                            <div>
+                                <div class="stat-value">
+                                    {% if stats.last_visited %}
+                                        <span class="time-ago" data-timestamp="{{ stats.last_visited }}"></span>
+                                    {% else %}
+                                        Never
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="sparkline" id="activity-sparkline"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Chart Section -->
+        <div class="row g-4 mb-4">
+            <div class="col-lg-6">
+                <div class="card glass-card animate__animated animate__fadeIn animate__delay-1">
+                    <div class="card-header border-0 bg-transparent d-flex justify-content-between align-items-center px-4 pt-4 pb-0">
+                        <h5 class="mb-0">Engagement Timeline</h5>
+                        <div class="chart-controls">
+                            <div class="btn-group btn-group-sm" role="group">
+                                <button type="button" class="btn btn-outline-dark btn-sm active" data-period="7d">7D</button>
+                                <button type="button" class="btn btn-outline-dark btn-sm" data-period="30d">30D</button>
+                                <button type="button" class="btn btn-outline-dark btn-sm" data-period="90d">90D</button>
+                                <button type="button" class="btn btn-outline-dark btn-sm" data-period="all">ALL</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body px-4 pt-2 pb-4">
+                        <canvas id="engagementChart" height="280"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="card glass-card animate__animated animate__fadeIn animate__delay-2">
+                    <div class="card-header border-0 bg-transparent px-4 pt-4 pb-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Traffic Sources</h5>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-link text-dark dropdown-toggle" type="button" id="trafficDropdown" data-bs-toggle="dropdown">
+                                    This Month
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#">This Week</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body px-4 pt-2 pb-4">
+                        <canvas id="trafficChart" height="280"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="card glass-card animate__animated animate__fadeIn animate__delay-3">
+                    <div class="card-header border-0 bg-transparent px-4 pt-4 pb-0">
+                        <h5 class="mb-0">Top Browsers</h5>
+                    </div>
+                    <div class="card-body px-4 pt-2 pb-4">
+                        <div class="browser-list">
+                            {% for browser, count in stats.user_agents.items() %}
+                            <div class="browser-item py-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="browser-icon me-3">
+                                        {% if 'firefox' in browser.lower() %}
+                                        <i class="fab fa-firefox fa-lg text-orange"></i>
+                                        {% elif 'chrome' in browser.lower() %}
+                                        <i class="fab fa-chrome fa-lg text-blue"></i>
+                                        {% elif 'safari' in browser.lower() %}
+                                        <i class="fab fa-safari fa-lg text-primary"></i>
+                                        {% else %}
+                                        <i class="fas fa-globe fa-lg text-muted"></i>
+                                        {% endif %}
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex justify-content-between">
+                                            <span class="browser-name">{{ browser|truncate(20) }}</span>
+                                            <span class="browser-count text-dark fw-medium">{{ count }}</span>
+                                        </div>
+                                        <div class="progress mt-2" style="height: 6px;">
+                                            <div class="progress-bar bg-primary" 
+                                                 style="width: {{ (count/stats.total_visits)*100 }}%"
+                                                 role="progressbar"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<style>
+:root {
+    --primary-gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #EC4899 100%);
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+    --text-dark: #1E293B;
+    --text-muted: #64748B;
+    --spacing-unit: 1rem;
+}
+
+body {
+    background-color: #F8FAFC;
+    color: var(--text-dark);
+}
+
+/* Glassmorphism Effect */
+.glass-card, .glass-morphism {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 16px;
+}
+
+/* Dashboard Header */
+.dashboard-header {
+    padding: 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--glass-bg);
+}
+
+.header-content h1 {
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.text-gradient {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline;
+}
+
+/* Stat Cards */
+.stat-card {
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--primary-gradient);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.stat-card:hover::before {
+    opacity: 1;
+}
+
+.stat-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+.bg-soft-primary { background-color: rgba(99, 102, 241, 0.1); color: #6366F1; }
+.bg-soft-success { background-color: rgba(16, 185, 129, 0.1); color: #10B981; }
+.bg-soft-info { background-color: rgba(6, 182, 212, 0.1); color: #06B6D4; }
+.bg-soft-warning { background-color: rgba(245, 158, 11, 0.1); color: #F59E0B; }
+
+.stat-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text-dark);
+}
+
+.stat-change {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.sparkline {
+    width: 80px;
+    height: 40px;
+}
+
+/* Browser List */
+.browser-item {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.browser-item:last-child {
+    border-bottom: none;
+}
+
+.text-blue { color: #3B82F6; }
+.text-orange { color: #F97316; }
+
+/* Activity Feed */
+.activity-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.activity-item {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+.activity-text {
+    display: block;
+    color: var(--text-dark);
+}
+
+.activity-time {
+    font-size: 0.75rem;
+}
+
+/* Animations */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .header-actions {
+        margin-top: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .stat-value {
+        font-size: 1.5rem;
+    }
+}
+</style>
+
+<!-- JavaScript Libraries -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/luxon@3.0.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.1.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-sparklines@2.1.2/jquery.sparkline.min.js"></script>
+
+<script>
+// Time ago formatting
+document.querySelectorAll('.time-ago').forEach(el => {
+    const timestamp = el.dataset.timestamp;
+    const date = luxon.DateTime.fromISO(timestamp);
+    el.textContent = date.toRelative();
+});
+
+// Sparkline Charts
+$('#total-plays-sparkline').sparkline([5,8,7,10,9,10,8,12,14,13,15,12], {
+    type: 'line',
+    width: '100%',
+    height: '40px',
+    lineColor: '#6366F1',
+    fillColor: 'rgba(99, 102, 241, 0.1)',
+    spotColor: false,
+    minSpotColor: false,
+    maxSpotColor: false,
+    highlightSpotColor: false,
+    highlightLineColor: false,
+    lineWidth: 2
+});
+
+$('#unique-learners-sparkline').sparkline([3,5,4,6,5,7,6,8,9,7,8,6], {
+    type: 'line',
+    width: '100%',
+    height: '40px',
+    lineColor: '#10B981',
+    fillColor: 'rgba(16, 185, 129, 0.1)',
+    spotColor: false,
+    minSpotColor: false,
+    maxSpotColor: false,
+    highlightSpotColor: false,
+    highlightLineColor: false,
+    lineWidth: 2
+});
+
+$('#activity-sparkline').sparkline([2,3,1,4,3,2,5,4,3,6,5,4], {
+    type: 'line',
+    width: '100%',
+    height: '40px',
+    lineColor: '#06B6D4',
+    fillColor: 'rgba(6, 182, 212, 0.1)',
+    spotColor: false,
+    minSpotColor: false,
+    maxSpotColor: false,
+    highlightSpotColor: false,
+    highlightLineColor: false,
+    lineWidth: 2
+});
+
+$('#duration-sparkline').sparkline([4,5,3,6,5,4,7,6,5,8,7,6], {
+    type: 'line',
+    width: '100%',
+    height: '40px',
+    lineColor: '#F59E0B',
+    fillColor: 'rgba(245, 158, 11, 0.1)',
+    spotColor: false,
+    minSpotColor: false,
+    maxSpotColor: false,
+    highlightSpotColor: false,
+    highlightLineColor: false,
+    lineWidth: 2
+});
+
+// Engagement Chart
+const engagementCtx = document.getElementById('engagementChart').getContext('2d');
+const engagementChart = new Chart(engagementCtx, {
+    type: 'line',
+    data: {
+        labels: {{ stats.visits_by_day.keys()|list|tojson }},
+        datasets: [{
+            label: 'Daily Plays',
+            data: {{ stats.visits_by_day.values()|list|tojson }},
+            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+            borderColor: '#6366F1',
+            borderWidth: 2,
+            tension: 0.4,
+            fill: true,
+            pointBackgroundColor: '#fff',
+            pointBorderColor: '#6366F1',
+            pointBorderWidth: 2,
+            pointRadius: 4,
+            pointHoverRadius: 6
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
+            },
+            tooltip: {
+                mode: 'index',
+                intersect: false,
+                backgroundColor: '#1E293B',
+                titleFont: {
+                    weight: '600'
+                },
+                padding: 12,
+                cornerRadius: 12
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                grid: {
+                    drawBorder: false,
+                    color: 'rgba(0, 0, 0, 0.05)'
+                },
+                ticks: {
+                    precision: 0
+                }
+            },
+            x: {
+                grid: {
+                    display: false
+                }
+            }
+        }
+    }
+});
+
+// Traffic Sources Chart
+const trafficCtx = document.getElementById('trafficChart').getContext('2d');
+const trafficChart = new Chart(trafficCtx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Direct', 'Referral', 'Social', 'Email', 'Organic'],
+        datasets: [{
+            data: [35, 25, 15, 10, 15],
+            backgroundColor: [
+                '#6366F1',
+                '#8B5CF6',
+                '#EC4899',
+                '#F59E0B',
+                '#10B981'
+            ],
+            borderWidth: 0,
+            spacing: 4
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '75%',
+        radius: '90%',
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: {
+                    usePointStyle: true,
+                    padding: 20,
+                    font: {
+                        weight: 500
+                    }
+                }
+            },
+            tooltip: {
+                backgroundColor: '#1E293B',
+                padding: 12,
+                cornerRadius: 12,
+                bodyFont: {
+                    weight: '500'
+                }
+            }
+        }
+    }
+});
+
+// Period selector
+document.querySelectorAll('.chart-controls button').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.chart-controls button').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        // Here you would update the chart data based on selected period
+    });
+});
+</script>
+{% endblock %}

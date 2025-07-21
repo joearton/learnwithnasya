@@ -1,0 +1,125 @@
+<section class="bg-white py-5 position-relative overflow-hidden">
+
+    <div class="position-absolute top-0 start-0 w-100 h-100 opacity-5">
+        <div class="animated-blob bg-soft-blue position-absolute" style="top: 20%; left: 10%; width: 200px; height: 200px; border-radius: 50%; filter: blur(60px);"></div>
+        <div class="animated-blob bg-soft-pink position-absolute" style="bottom: 15%; right: 5%; width: 250px; height: 250px; border-radius: 50%; filter: blur(60px); animation-delay: 2s;"></div>
+    </div>
+
+    <div class="container position-relative">
+        <div class="text-center mb-5">
+            <span class="badge bg-light-blue bg-opacity-10 text-light-blue rounded-pill px-3 py-2 mb-3 d-inline-block">
+                <i class="fas fa-heart me-1"></i> Open & Free Forever
+            </span>
+            <h2 class="fw-bold display-5 mb-3">LearnWithNasya: <span class="text-gradient">Where Passion Meets Purpose</span></h2>
+            <p class="lead text-muted mx-auto" style="max-width: 700px;">
+                What began as a mother’s toolkit to teach her child English is now a <strong>community-driven</strong> platform — no logins, no ads, just <span class="text-decoration-underline">authentic learning</span>.
+            </p>
+        </div>
+
+        <div class="row g-4 g-lg-5">
+            <!-- Card 1: Origin Story -->
+            <div class="col-md-4">
+                <div class="card card-hover h-100 border-0 shadow-sm overflow-hidden">
+                    <div class="card-body p-4">
+                        <div class="icon-box bg-soft-blue bg-opacity-10 text-light-blue rounded-3 p-3 mb-4 d-inline-block">
+                            <i class="fas fa-seedling fa-2x"></i>
+                        </div>
+                        <h4 class="mb-3">A Labor of Love</h4>
+                        <p class="text-muted mb-0">
+                            Crafted during bedtime stories and weekend playtimes. Every pixel carries a parent’s dedication to joyful education.
+                        </p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 pt-0 pb-4 px-4">
+                        <a href="#origin" class="text-sm text-light-blue text-decoration-none d-flex align-items-center">
+                            Read our story <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Open Source -->
+            <div class="col-md-4">
+                <div class="card card-hover h-100 border-0 shadow-sm overflow-hidden">
+                    <div class="card-body p-4">
+                        <div class="icon-box bg-soft-green bg-opacity-10 text-light-green rounded-3 p-3 mb-4 d-inline-block">
+                            <i class="fas fa-code-branch fa-2x"></i>
+                        </div>
+                        <h4 class="mb-3">Built Together</h4>
+                        <p class="text-muted mb-0">
+                            Open-source means <strong>your ideas matter</strong>. Teachers, developers, parents — all welcome to improve this living project.
+                        </p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 pt-0 pb-4 px-4">
+                        <a href="https://github.com/your-repo" target="_blank" class="text-sm text-light-green text-decoration-none d-flex align-items-center">
+                            <i class="fab fa-github me-2"></i> Star us on GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Design Philosophy -->
+            <div class="col-md-4">
+                <div class="card card-hover h-100 border-0 shadow-sm overflow-hidden">
+                    <div class="card-body p-4">
+                        <div class="icon-box bg-soft-purple bg-opacity-10 text-light-purple rounded-3 p-3 mb-4 d-inline-block">
+                            <i class="fas fa-paint-brush fa-2x"></i>
+                        </div>
+                        <h4 class="mb-3">Thoughtful Design</h4>
+                        <p class="text-muted mb-0">
+                            Where Montessori meets modern tech. Clean interfaces, playful micro-interactions, and zero clutter.
+                        </p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 pt-0 pb-4 px-4">
+                        <a href="#design" class="text-sm text-light-purple text-decoration-none d-flex align-items-center">
+                            See design principles <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Animated CTA -->
+        <div class="text-center mt-5">
+            <a href="https://github.com/joearton/learnwithnasya" class="btn btn-lg btn-primary px-5 py-3 position-relative overflow-hidden">
+                <span class="position-relative z-1">
+                    <i class="fas fa-hands-helping me-2"></i> Join the Movement
+                </span>
+                <span class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-10 animated-wave"></span>
+            </a>
+            <p class="text-xs text-muted mt-3">
+                <i class="fas fa-lock-open me-1"></i> No accounts needed. Just pure contribution.
+            </p>
+        </div>
+    </div>
+</section>
+
+
+<style>
+    .text-gradient {
+        background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    .card-hover {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 24px rgba(0,0,0,0.08) !important;
+    }
+    .animated-blob {
+        animation: float 8s ease-in-out infinite;
+    }
+    .animated-wave {
+        animation: wave 3s linear infinite;
+    }
+    @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(2deg); }
+    }
+    @keyframes wave {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
+</style>

@@ -1,0 +1,203 @@
+{% extends "base_home.html" %}
+
+{% block title %}Game Statistics{% endblock %}
+
+{% block style %}
+<style>
+    .stat-value {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #0d6efd;
+    }
+    .stat-label {
+        color: #6c757d;
+        font-size: 1rem;
+    }
+    .card-stat {
+        transition: transform 0.2s;
+    }
+    .card-stat:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    }
+    .table-hover tbody tr:hover {
+        background-color: rgba(13, 110, 253, 0.05);
+    }
+</style>
+{% endblock style %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-5 fw-bold">Website Statistics</h1>
+        <div class="d-flex">
+            <span class="badge bg-primary fs-6">Last Updated: {{ now.strftime('%Y-%m-%d %H:%M') }}</span>
+        </div>
+    </div>
+    
+    <!-- Summary Stats -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <div class="card card-stat h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="stat-value">{{ stats.total_page_views }}</div>
+                    <div class="stat-label">Total Page Views</div>
+                    <div class="mt-2">
+                        <span class="badge bg-info text-dark">
+                            <i class="bi bi-eye-fill me-1"></i> All Time
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card card-stat h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="stat-value">{{ stats.unique_visitors }}</div>
+                    <div class="stat-label">Unique Visitors</div>
+                    <div class="mt-2">
+                        <span class="badge bg-success">
+                            <i class="bi bi-people-fill me-1"></i> Distinct IPs
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card card-stat h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="stat-value">{{ busiest_day.visits }}</div>
+                    <div class="stat-label">Busiest Day</div>
+                    <div class="mt-2">
+                        <span class="badge bg-warning text-dark">
+                            <i class="bi bi-calendar-event-fill me-1"></i> {{ busiest_day.date }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Popular Pages -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white">
+            <h2 class="h5 mb-0"><i class="bi bi-star-fill me-2"></i>Most Popular Pages</h2>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Page</th>
+                            <th scope="col" class="text-end">Views</th>
+                            <th scope="col" class="text-end">Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for page, count in popular_pages %}
+                        <tr>
+                            <td>
+                                <a href="{{ page }}" class="text-decoration-none">{{ page }}</a>
+                            </td>
+                            <td class="text-end">{{ count }}</td>
+                            <td class="text-end">
+                                {{ "%.1f"|format((count / stats.total_page_views) * 100) }}%
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Traffic Sources -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-success text-white">
+            <h2 class="h5 mb-0"><i class="bi bi-traffic-cone me-2"></i>Top Traffic Sources</h2>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Source</th>
+                            <th scope="col" class="text-end">Visits</th>
+                            <th scope="col" class="text-end">Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for source, count in traffic_sources %}
+                        <tr>
+                            <td>
+                                {% if source == 'direct' %}
+                                    <i class="bi bi-door-open-fill text-muted me-2"></i>Direct
+                                {% else %}
+                                    <i class="bi bi-link-45deg text-primary me-2"></i>{{ source }}
+                                {% endif %}
+                            </td>
+                            <td class="text-end">{{ count }}</td>
+                            <td class="text-end">
+                                {{ "%.1f"|format((count / stats.total_page_views) * 100) }}%
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Activity by Day -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-info text-dark">
+            <h2 class="h5 mb-0"><i class="bi bi-calendar-week me-2"></i>Activity by Day</h2>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col" class="text-end">Visits</th>
+                            <th scope="col" class="text-end">Trend</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for date, count in stats.active_days.items()|sort(reverse=True) %}
+                        <tr>
+                            <td>{{ date }}</td>
+                            <td class="text-end">{{ count }}</td>
+                            <td class="text-end">
+                                {% if count > busiest_day.visits * 0.8 %}
+                                    <span class="badge bg-danger"><i class="bi bi-arrow-up"></i> High</span>
+                                {% elif count > busiest_day.visits * 0.5 %}
+                                    <span class="badge bg-warning text-dark"><i class="bi bi-dash"></i> Medium</span>
+                                {% else %}
+                                    <span class="badge bg-secondary"><i class="bi bi-arrow-down"></i> Low</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Add any JavaScript you might need here
+    document.addEventListener('DOMContentLoaded', function() {
+        // Example: Add tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
+    });
+</script>
+{% endblock %}

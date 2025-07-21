@@ -7,7 +7,7 @@
 
 {% block content %}
     <section class="fairy-bg mb-5 text-center text-dark sparkle">
-        {% include "elements/homepage-jumbotron.html" %}
+        {% include "elements/homepage_jumbotron.html" %}
     </section>
 
     <section id="games" class="py-6 py-lg-8 bg-light mb-5">
@@ -17,56 +17,20 @@
                 <p class="lead text-muted mb-4">Interactive games that make learning English fun!</p>
                 <div class="divider mx-auto bg-primary" style="width: 80px; height: 3px;"></div>
             </div>
-            {% set col_size=3 %}
-            {% include "elements/game-iteration.html" %}
+
+            {% set col_size=4 %}
+            {% include "elements/game_iteration.html" %}
+
             <div class="text-center mt-6">
-                <a href="#" class="btn btn-outline-primary btn-lg px-5 rounded-pill">
+                <a href="{{ url_for('game_list') }}" class="btn btn-outline-primary btn-lg px-5 rounded-pill">
                     <i class="fas fa-plus-circle me-2"></i> View All Games
                 </a>
             </div>
         </div>
     </section>
 
-
-<!-- Features Section -->
-<section class="bg-white py-5">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="fw-bold">Why Choose Our Games?</h2>
-            <p class="text-muted">Designed for effective English learning</p>
-        </div>
-
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="text-center p-4">
-                    <div class="icon-box bg-primary bg-opacity-10 text-primary rounded-circle mx-auto mb-4">
-                        <i class="fas fa-brain fa-2x"></i>
-                    </div>
-                    <h4>Interactive Learning</h4>
-                    <p class="text-muted">Engaging activities that make learning fun and memorable.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="text-center p-4">
-                    <div class="icon-box bg-primary bg-opacity-10 text-primary rounded-circle mx-auto mb-4">
-                        <i class="fas fa-chart-line fa-2x"></i>
-                    </div>
-                    <h4>Progress Tracking</h4>
-                    <p class="text-muted">Monitor your child's improvement over time.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="text-center p-4">
-                    <div class="icon-box bg-primary bg-opacity-10 text-primary rounded-circle mx-auto mb-4">
-                        <i class="fas fa-award fa-2x"></i>
-                    </div>
-                    <h4>Reward System</h4>
-                    <p class="text-muted">Motivating rewards to encourage continuous learning.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+    <!-- Features Section -->
+    {% include "elements/homepage_feature.html" %}
 {% endblock %}
 
 
@@ -153,25 +117,24 @@
 
 
 {% block scripts %}
-<!-- Add any additional scripts here -->
-<script>
-    // Add any interactive functionality if needed
-    document.addEventListener('DOMContentLoaded', function() {
-        // Animation for game cards when they come into view
-        const gameCards = document.querySelectorAll('.game-card');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate__animated', 'animate__fadeInUp');
-                    observer.unobserve(entry.target);
-                }
+    <script>
+        // Add any interactive functionality if needed
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animation for game cards when they come into view
+            const gameCards = document.querySelectorAll('.game-card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
             });
-        }, {
-            threshold: 0.1
+            gameCards.forEach(card => {
+                observer.observe(card);
+            });
         });
-        gameCards.forEach(card => {
-            observer.observe(card);
-        });
-    });
-</script>
+    </script>
 {% endblock %}
