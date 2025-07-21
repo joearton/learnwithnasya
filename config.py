@@ -13,7 +13,7 @@ ALLOWED_REFERERS    = [
 
 
 # Path untuk file statistik
-STATS_FILE      = 'visitor_stats.csv'
+STATS_FILE      = 'visitor_statistic.csv'
 STATS_FIELDS    = ['ip', 'user_agent', 'url', 'path', 'method', 'referrer', 'timestamp']
 TRACKED_ROUTES  = {
     '/': 'index',
