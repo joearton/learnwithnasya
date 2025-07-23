@@ -5,6 +5,7 @@ let startTime;
 let questions = [];
 let totalQuestions = 30;
 
+
 // DOM elements
 const questionElement = document.getElementById('question');
 const questionImageElement = document.getElementById('question-image');
@@ -22,13 +23,13 @@ const questionBank = [
     // Animals (5 questions)
     {
         question: "Which word means 'a large animal with a trunk'?",
-        image: "https://cdn.pixabay.com/photo/2017/03/30/17/42/elephant-2189147_640.png",
+        image: "https://cdn.pixabay.com/photo/2019/04/11/22/24/elephant-4120822_640.jpg",
         options: ["Dog", "Elephant", "Cat", "Bird"],
         answer: "Elephant"
     },
     {
         question: "What is this animal called?",
-        image: "https://cdn.pixabay.com/photo/2013/07/12/18/20/sheep-153375_640.png",
+        image: "https://cdn.pixabay.com/photo/2019/12/04/23/34/sheep-4673941_640.jpg",
         options: ["Cow", "Sheep", "Horse", "Pig"],
         answer: "Sheep"
     },
@@ -44,7 +45,7 @@ const questionBank = [
     },
     {
         question: "What do you call this sea animal?",
-        image: "https://cdn.pixabay.com/photo/2013/07/12/15/36/dolphin-150195_640.png",
+        image: "https://cdn.pixabay.com/photo/2017/08/27/18/16/dolphin-2687078_640.jpg",
         options: ["Shark", "Dolphin", "Whale", "Octopus"],
         answer: "Dolphin"
     },
@@ -52,7 +53,7 @@ const questionBank = [
     // Colors (5 questions)
     {
         question: "Choose the word for this color:",
-        image: "https://cdn.pixabay.com/photo/2017/01/10/03/06/red-1968246_640.png",
+        image: "https://cdn.pixabay.com/photo/2015/07/07/10/41/poppy-834203_640.jpg",
         options: ["Blue", "Green", "Red", "Yellow"],
         answer: "Red"
     },
@@ -85,7 +86,7 @@ const questionBank = [
     },
     {
         question: "What is this fruit called?",
-        image: "https://cdn.pixabay.com/photo/2016/01/05/13/58/apple-1122537_640.jpg",
+        image: "https://cdn.pixabay.com/photo/2017/09/26/13/31/apple-2788616_960_720.jpgg",
         options: ["Orange", "Banana", "Apple", "Grape"],
         answer: "Apple"
     },
@@ -108,7 +109,7 @@ const questionBank = [
     // Objects (5 questions)
     {
         question: "What do you call this object?",
-        image: "https://cdn.pixabay.com/photo/2013/07/12/18/39/pencil-153508_640.png",
+        image: "https://cdn.pixabay.com/photo/2025/03/21/18/04/art-9485478_1280.jpg",
         options: ["Book", "Pencil", "Chair", "Table"],
         answer: "Pencil"
     },
@@ -163,7 +164,7 @@ const questionBank = [
     // Places (5 questions)
     {
         question: "What do you call this place?",
-        image: "https://cdn.pixabay.com/photo/2013/07/12/12/56/school-146114_640.png",
+        image: "https://cdn.pixabay.com/photo/2017/08/09/12/15/back-to-school-2614359_640.jpg",
         options: ["Hospital", "School", "Park", "Store"],
         answer: "School"
     },

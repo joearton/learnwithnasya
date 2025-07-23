@@ -1,0 +1,8 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Izinkan akses static hanya dari referer internal
+    RewriteCond %{REQUEST_URI} ^/static/ [NC]
+    RewriteCond %{HTTP_REFERER} !^https?://(www\.)?learnwithnasya\.my\.id [NC]
+    RewriteRule ^ - [F,L]
+</IfModule>

@@ -1,5 +1,5 @@
 <div class="container">
-    <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">
+    <a class="navbar-brand fw-bold" href="{{ url_for('main.index') }}">
         <i class="fas fa-child-reaching me-2"></i> LearnWithNasya
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -8,27 +8,35 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="{{ url_for('main.index') }}">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('game_list') }}">
+                <a class="nav-link" href="{{ url_for('games.game_list') }}">
                     <i class="fa fa-gamepad" aria-hidden="true"></i> Explores
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('render_static_page', page_name='about') }}">About</a>
+                <a class="nav-link" href="{{ url_for('main.view_static_page', page_name='about') }}">About</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('render_static_page', page_name='contact') }}">Contact</a>
+                <a class="nav-link" href="{{ url_for('main.view_static_page', page_name='contact') }}">Contact</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" target="_blank" href="https://github.com/joearton/learnwithnasya">
-                    <i class="fab fa-github" aria-hidden="true"></i> Contribute
+                    <i class="fab fa-github" aria-hidden="true"></i>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('show_general_stats') }}">
-                   <i class="fa fa-area-chart" aria-hidden="true"></i> Stats
+                <a class="nav-link" href="{{ url_for('stats.show_general_stats') }}">
+                    <i class="fa fa-area-chart" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('auth.login') }}">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    {% if current_user %}
+                    {{ current_user.username }}
+                    {% endif %}
                 </a>
             </li>
         </ul>

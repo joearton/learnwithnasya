@@ -1,12 +1,20 @@
 {
-    "title": "Simple Listening",
-    "description": "A fun game to improve English listening skills for children",
-    "author": "Joe Arton",
-    "version": "1.0",
-    "difficulty": "Easy",
-    "categories": "Language Learning",
-    "tags": ["English", "Listening", "Kids"],
-    "skills": ["listening", "comprehension"],
-    "ages": "6-12",
-    "thumbnail_alt": "A cartoon ear with musical notes and a happy face"
+  "title": "Simple Listening",
+  "description": "A fun game to improve English listening skills for children",
+  "author": "Joe Arton",
+  "version": "1.0",
+  "difficulty": "Easy",
+  "categories": "Language Learning",
+  "tags": [
+    "English",
+    "Listening",
+    "Kids"
+  ],
+  "skills": [
+    "listening",
+    "comprehension"
+  ],
+  "ages": "6-12",
+  "thumbnail_alt": "A cartoon ear with musical notes and a happy face",
+  "viewed": 2
 }

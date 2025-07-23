@@ -1,12 +1,19 @@
 {
-    "title": "Choose Word to Answer",
-    "description": "A simple English vocabulary game where children choose the correct word that matches the question or picture.",
-    "author": "Joe Arton",
-    "version": "1.0",
-    "difficulty": "easy",
-    "categories": "vocabulary",
-    "tags": ["words", "beginner"],
-    "skills": ["reading", "speaking"],
-    "ages": "5-8",
-    "thumbnail_alt": "A colorful cartoon illustration of children playing with word bubbles"
+  "title": "Choose Word to Answer",
+  "description": "A simple English vocabulary game where children choose the correct word that matches the question or picture.",
+  "author": "Joe Arton",
+  "version": "1.0",
+  "difficulty": "easy",
+  "categories": "vocabulary",
+  "tags": [
+    "words",
+    "beginner"
+  ],
+  "skills": [
+    "reading",
+    "speaking"
+  ],
+  "ages": "5-8",
+  "thumbnail_alt": "A colorful cartoon illustration of children playing with word bubbles",
+  "viewed": 7
 }

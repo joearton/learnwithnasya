@@ -102,7 +102,7 @@
         });
         
         function confirmNavigateHome() {
-            window.location.href = "{{ url_for('index') }}";
+            window.location.href = "{{ url_for('main.index') }}";
         }
     </script>
 {% endblock %}
@@ -121,9 +121,18 @@
         <button id="toolbox-home" class="toolbox-btn" title="Return to home">
             <i class="fas fa-home"></i>
         </button>
-        <a href="{{ url_for('show_game_stats', game_id=game.id) }}" id="toolbox-stats" class="toolbox-btn" target="_blank" title="View Statistic">
+        <a href="{{ url_for('stats.show_game_stats', game_id=game.id) }}" id="toolbox-stats" class="toolbox-btn" target="_blank" title="View Statistic">
             <i class="fa fa-line-chart" aria-hidden="true"></i>
         </a>
+    </div>
+    
+    <div class="fixed-bottom text-end">
+        <div class="d-inline-block bg-primary py-1 px-3 small shadow-sm">
+            <span class="fw-semibold text-white">
+                <i class="fas fa-user-circle me-1"></i>
+                {{ current_user.username if current_user.is_authenticated else 'Guest' }}
+            </span>
+        </div>
     </div>
 
     <!-- Home Confirmation Modal -->

@@ -1,0 +1,54 @@
+{% extends "auth/base.html" %}
+
+
+{% block title %}Login{% endblock %}
+
+
+{% block content %}
+    <div class="bubble" style="width: 40px; height: 40px; left: 10%; animation-delay: 0s;"></div>
+    <div class="bubble" style="width: 60px; height: 60px; left: 25%; animation-delay: 2s;"></div>
+    <div class="bubble" style="width: 30px; height: 30px; left: 75%; animation-delay: 4s;"></div>
+    <div class="bubble" style="width: 50px; height: 50px; left: 90%; animation-delay: 6s;"></div>
+    <div class="bubble" style="width: 45px; height: 45px; left: 50%; animation-delay: 8s;"></div>
+    
+    <div class="auth-container">
+        <img src="{{ url_for('static', filename='images/favicon.png') }}" alt="LearnWithNasya" class="logo">
+        <h1 class="game-title">LearnWithNasya</h1>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <form method="post">
+            <div class="form-floating floating-custom mb-4">
+                <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+                <label for="username">Username</label>
+            </div>
+            
+            <div class="form-floating floating-custom mb-4">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                <label for="password">Password</label>
+            </div>
+            
+            <button type="submit" class="btn btn-blue mb-3">
+                <i class="fas fa-sign-in-alt me-2"></i> DIVE IN
+            </button>
+            
+            <div class="auth-links">
+                <a href="{{ url_for('auth.forgot_password') }}" class="auth-link">
+                    <i class="fas fa-key me-1"></i> Forgot Password?
+                </a>
+                <a href="{{ url_for('auth.register') }}" class="auth-link">
+                    <i class="fas fa-user-plus me-1"></i> Create Account
+                </a>
+            </div>
+        </form>
+    </div>
+{% endblock %}
