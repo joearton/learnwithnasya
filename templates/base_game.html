@@ -47,64 +47,54 @@
 
 
 {% block scripts %}
-    <script src="{{ url_for('static', filename=game.script) }}"></script>
+    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize Bootstrap tooltips
-            const tooltipTriggerList = [].slice.call(document.querySelectorAll('.toolbox-btn[title]'));
-            tooltipTriggerList.map(function (tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl, {
-                    placement: 'left'
-                });
+        let gameToken = null;
+        const user = '{{ current_user.username if current_user.is_authenticated else "" }}';
+
+        function saveScore(finalScore) {
+            if (!user) return;
+            fetch('/game/score', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({
+                    game_id: '{{ game.id }}',
+                    score: finalScore,
+                    token: gameToken
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Score saved:', data);
+            })
+            .catch(error => {
+                console.error('Error saving score:', error);
             });
-            
-            // Audio Mute Toggle
-            const audioBtn = document.getElementById('toolbox-audio');
-            if (audioBtn) {
-                // Check initial mute state from localStorage
-                const isMuted = localStorage.getItem('gameAudioMuted') === 'true';
-                if (isMuted) {
-                    audioBtn.classList.add('muted');
-                    muteAllAudio(true);
-                }
-                
-                audioBtn.addEventListener('click', function() {
-                    const shouldMute = !this.classList.contains('muted');
-                    
-                    this.classList.toggle('muted', shouldMute);
-                    muteAllAudio(shouldMute);
-                    
-                    // Update tooltip
-                    const newTitle = shouldMute ? 'Unmute sound' : 'Mute sound';
-                    this.setAttribute('title', newTitle);
-                    const tooltip = bootstrap.Tooltip.getInstance(this);
-                    if (tooltip) tooltip.setContent({'.tooltip-inner': newTitle});
-                    
-                    // Save preference
-                    localStorage.setItem('gameAudioMuted', shouldMute);
-                });
-            }
-            
-            // Home Confirmation
-            const homeBtn = document.getElementById('toolbox-home');
-            if (homeBtn) {
-                homeBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    new bootstrap.Modal(document.getElementById('homeConfirmationModal')).show();
-                });
-            }
-            
-            function muteAllAudio(mute) {
-                document.querySelectorAll('audio, video').forEach(media => {
-                    media.muted = mute;
-                });
-            }
-        });
-        
-        function confirmNavigateHome() {
-            window.location.href = "{{ url_for('main.index') }}";
         }
+
+
+        function fetchGameToken() {
+            return fetch('/game/start', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ game_id: '{{ game.id }}' })
+            })
+            .then(res => res.json())
+            .then(data => {
+                gameToken = data.token;
+            });
+        }
+
+        if (user) {
+            fetchGameToken();
+        }
+
     </script>
+    <script src="{{ url_for('static', filename=game.script) }}"></script>
 {% endblock %}
 
 
@@ -128,10 +118,11 @@
     
     <div class="fixed-bottom text-end">
         <div class="d-inline-block bg-primary py-1 px-3 small shadow-sm">
-            <span class="fw-semibold text-white">
+            <a class="fw-semibold text-white text-decoration-none"
+               href="{{ url_for('auth.login') if not current_user.is_authenticated else '#' }}">
                 <i class="fas fa-user-circle me-1"></i>
                 {{ current_user.username if current_user.is_authenticated else 'Guest' }}
-            </span>
+            </a>
         </div>
     </div>
 

@@ -1,0 +1,159 @@
+{% extends "base_home.html" %}
+
+{% block title %}Profile Settings - {{ super() }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+                <div class="card-header bg-primary text-white py-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <h2 class="h5 mb-0 fw-semibold">
+                            <i class="fas fa-user-cog me-2"></i>Profile Settings
+                        </h2>
+                        <a href="{{ url_for('main.index') }}" class="btn btn-sm btn-light">
+                            <i class="fas fa-arrow-left me-1"></i> Dashboard
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="card-body p-4">
+                    <!-- Flash Messages -->
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            <div class="mb-4">
+                                {% for category, message in messages %}
+                                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                        {{ message }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+
+                    <form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        <!-- Profile Picture Section -->
+                        <div class="mb-4 text-center">
+                            <div class="d-flex flex-column align-items-center">
+                                <div class="position-relative mb-2">
+                                    <img src="{{ user.profile_picture or url_for('static', filename='images/default-avatar.png') }}" 
+                                         class="rounded-circle shadow-sm" 
+                                         width="120" 
+                                         height="120" 
+                                         alt="Profile picture"
+                                         id="profilePicturePreview">
+                                    <label for="profile_picture" class="btn btn-sm btn-primary rounded-circle position-absolute bottom-0 end-0">
+                                        <i class="fas fa-camera"></i>
+                                        <input type="file" id="profile_picture" name="profile_picture" accept="image/*" class="d-none">
+                                    </label>
+                                </div>
+                                <small class="text-muted">JPG, GIF or PNG. Max size 2MB</small>
+                            </div>
+                        </div>
+
+                        <!-- Account Information Section -->
+                        <div class="mb-4">
+                            <h5 class="mb-3 text-primary d-flex align-items-center">
+                                <i class="fas fa-user-circle me-2"></i>Account Information
+                            </h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="username" class="form-label">Username</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">@</span>
+                                        <input type="text" class="form-control" id="username" name="username" 
+                                               value="{{ user.username }}" required>
+                                        <div class="invalid-feedback">
+                                            Please choose a username.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" id="email" name="email" 
+                                           value="{{ user.email or '' }}" 
+                                           {{ 'required' if user.email else '' }}>
+                                    <div class="form-text">
+                                        {{ 'Verified' if user.email_verified else 'Not verified' }}
+                                        {% if not user.email_verified and user.email %}
+                                            <a href="{{ url_for('auth.resend_verification') }}" class="ms-2">Resend verification</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Personal Information Section -->
+                        <div class="mb-4">
+                            <h5 class="mb-3 text-primary d-flex align-items-center">
+                                <i class="fas fa-id-card me-2"></i>Personal Information
+                            </h5>
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <label for="full_name" class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="full_name" name="full_name" 
+                                           value="{{ user.full_name or '' }}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Security Section -->
+                        <div class="mb-4">
+                            <h5 class="mb-3 text-primary d-flex align-items-center">
+                                <i class="fas fa-shield-alt me-2"></i>Security
+                            </h5>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div>
+                                    <strong>Password</strong>
+                                    <div class="text-muted">Last changed: {{ user.updated_at.strftime('%d %b %Y') if user.updated_at else 'Never' }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between pt-3">
+                            <div>
+                                <button type="reset" class="btn btn-outline-secondary me-2">
+                                    <i class="fas fa-undo me-1"></i> Reset
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-1"></i> Save Changes
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+// Profile picture preview
+document.getElementById('profile_picture').addEventListener('change', function(event) {
+    const [file] = event.target.files;
+    if (file) {
+        const preview = document.getElementById('profilePicturePreview');
+        preview.src = URL.createObjectURL(file);
+    }
+});
+
+// Form validation
+(() => {
+    'use strict'
+    const forms = document.querySelectorAll('.needs-validation')
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+            form.classList.add('was-validated')
+        }, false)
+    })
+})()
+</script>
+{% endblock %}

@@ -31,13 +31,35 @@
                     <i class="fa fa-area-chart" aria-hidden="true"></i>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('auth.login') }}">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-user" aria-hidden="true"></i>
-                    {% if current_user %}
-                    {{ current_user.username }}
+                    {% if current_user.is_authenticated %}
+                        {{ current_user.username }}
+                    {% else %}
+                        Account
                     {% endif %}
                 </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    {% if current_user.is_authenticated %}
+                        <li>
+                            <a class="dropdown-item" href="{{ url_for('auth.profile') }}">
+                                <i class="fa fa-user" aria-hidden="true"></i> Profile
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ url_for('auth.logout') }}">
+                                <i class="fa fa-sign-out-alt" aria-hidden="true"></i> Logout
+                            </a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a class="dropdown-item" href="{{ url_for('auth.login') }}">
+                                <i class="fa fa-sign-in-alt" aria-hidden="true"></i> Login
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
             </li>
         </ul>
     </div>

@@ -1,13 +1,35 @@
 # auth.py (Blueprint)
-from flask import Blueprint, render_template, redirect, url_for, request, flash
-from flask_login import login_user, logout_user, current_user, login_required
+import os
+import re
+import time
+from datetime import datetime, timezone
+
+# Third-party Imports
+from flask import (
+    Blueprint, 
+    current_app, 
+    flash, 
+    redirect, 
+    render_template, 
+    request, 
+    url_for
+)
+from flask_login import (
+    current_user, 
+    login_required, 
+    login_user, 
+    logout_user
+)
+from itsdangerous import URLSafeTimedSerializer
+from PIL import Image
 from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.utils import secure_filename
+
+# Local Imports
 from extensions import db
 from models import User
-from itsdangerous import URLSafeTimedSerializer
-from flask import current_app
-from datetime import datetime
-import os
+
+
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -182,6 +204,148 @@ def reset_password(token):
     return render_template('auth/reset_password.html', token=token)
 
 
+@auth_bp.route('/profile', methods=['GET', 'POST'])
+@login_required
+def profile():
+    user = current_user
+    
+    if request.method == 'POST':
+        # Get form data
+        form_data = {
+            'full_name': request.form.get('full_name', '').strip(),
+            'email': request.form.get('email', '').lower().strip(),
+            'username': request.form.get('username', '').lower().strip(),
+            'profile_picture': handle_profile_picture_upload(request.files.get('profile_picture'))
+        }
+        
+        # Initialize validation
+        errors = False
+        validation_messages = []
+        
+        # Email validation
+        if form_data['email'] and form_data['email'] != user.email:
+            if not re.match(r'^[^@]+@[^@]+\.[^@]+$', form_data['email']):
+                validation_messages.append('Please enter a valid email address')
+                errors = True
+            elif User.query.filter(User.email == form_data['email'], User.id != user.id).first():
+                validation_messages.append('This email is already registered')
+                errors = True
+        
+        # Username validation
+        if form_data['username'] != user.username:
+            if len(form_data['username']) < 3:
+                validation_messages.append('Username must be at least 3 characters')
+                errors = True
+            elif not re.match(r'^[a-z0-9_]+$', form_data['username']):
+                validation_messages.append('Username can only contain lowercase letters, numbers, and underscores')
+                errors = True
+            elif User.query.filter(User.username == form_data['username'], User.id != user.id).first():
+                validation_messages.append('This username is already taken')
+                errors = True
+        
+        # Handle validation messages
+        if validation_messages:
+            flash('<br>'.join(validation_messages), 'danger')
+        
+        # Update profile if no errors
+        if not errors:
+            try:
+                update_user_profile(user, form_data)
+                db.session.commit()
+                
+                flash('Your profile has been updated successfully!', 'success')
+                if form_data['email'] != user.email:
+                    flash('Please verify your new email address', 'warning')
+                
+                return redirect(url_for('auth.profile'))
+            
+            except Exception as e:
+                db.session.rollback()
+                current_app.logger.error(f'Profile update error: {str(e)}', exc_info=True)
+                flash('An error occurred while updating your profile. Please try again.', 'danger')
+    
+    return render_template('auth/profile.html', user=user)
+
+
+def handle_profile_picture_upload(file):
+    """Process and validate profile picture upload"""
+    if not file or file.filename == '':
+        return None
+    
+    try:
+        # Validate file extension
+        allowed_extensions = {'png', 'jpg', 'jpeg', 'gif'}
+        file_ext = file.filename.rsplit('.', 1)[1].lower() if '.' in file.filename else ''
+        if file_ext not in allowed_extensions:
+            raise ValueError('Only image files (PNG, JPG, JPEG, GIF) are allowed')
+        
+        # Validate file size (2MB max)
+        max_size = 2 * 1024 * 1024  # 2MB
+        file.seek(0, os.SEEK_END)
+        file_size = file.tell()
+        file.seek(0)
+        if file_size > max_size:
+            raise ValueError(f'File size exceeds {max_size//(1024*1024)}MB limit')
+        
+        # Generate secure filename
+        filename = f"{current_user.id}_{int(time.time())}.{file_ext}"
+        filename = secure_filename(filename)
+        upload_dir = os.path.join(current_app.config['UPLOAD_FOLDER'], 'profile_pictures')
+        
+        # Ensure upload directory exists
+        os.makedirs(upload_dir, exist_ok=True)
+        upload_path = os.path.join(upload_dir, filename)
+        
+        # Process image
+        with Image.open(file) as img:
+            # Convert to RGB if RGBA
+            if img.mode in ('RGBA', 'P'):
+                img = img.convert('RGB')
+            
+            # Resize while maintaining aspect ratio
+            img.thumbnail((500, 500))
+            
+            # Save optimized image
+            img.save(upload_path, quality=85, optimize=True)
+        
+        return url_for('static', filename=f'uploads/profile_pictures/{filename}', _external=True)
+    
+    except Exception as e:
+        current_app.logger.warning(f'Profile picture upload error: {str(e)}')
+        flash(f'Profile picture error: {str(e)}', 'warning')
+        return None
+
+
+def update_user_profile(user, form_data):
+    """Update user profile attributes"""
+    if form_data['full_name'] is not None:
+        user.full_name = form_data['full_name'] or None
+    
+    if form_data['email'] and form_data['email'] != user.email:
+        user.email = form_data['email']
+        user.email_verified = False
+    
+    if form_data['username'] != user.username:
+        user.username = form_data['username']
+    
+    if form_data['profile_picture']:
+        # Delete old profile picture if it exists
+        if user.profile_picture and 'uploads/profile_pictures' in user.profile_picture:
+            try:
+                old_filename = user.profile_picture.split('/')[-1]
+                old_path = os.path.join(current_app.config['UPLOAD_FOLDER'], 
+                                      'profile_pictures', 
+                                      old_filename)
+                if os.path.exists(old_path):
+                    os.remove(old_path)
+            except Exception as e:
+                current_app.logger.error(f'Error deleting old profile picture: {str(e)}')
+        
+        user.profile_picture = form_data['profile_picture']
+    
+    user.updated_at = datetime.now(timezone.utc)
+    
+    
 
 @auth_bp.route('/logout')
 @login_required

@@ -1,7 +1,11 @@
+from datetime import datetime, timezone
 import os
 import random
 from helpers.metadata import load_game_metadata
 from config import GAME_DIR
+import csv
+from flask import request, jsonify
+from config import DATA_DIR
 
 
 
@@ -95,4 +99,71 @@ def get_games_list(sort_mode='name', page=None, per_page=None, limit=None, filte
         return games[:limit]
     
     return games    
-    
+
+
+def save_game_score(game_id, username, email, score):
+    csv_file = os.path.join(DATA_DIR, f"score-board-{game_id}.csv")
+    now_str = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
+
+    # Read existing scores
+    scores = []
+    if os.path.exists(csv_file):
+        with open(csv_file, newline='', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                scores.append(row)
+
+    # Add new score
+    scores.append({
+        'username'  : username,
+        'email'     : email,
+        'score'     : int(score),
+        'date'      : now_str
+    })
+
+    # Sort by score descending, keep top 50
+    scores = sorted(scores, key=lambda x: int(x['score']), reverse=True)[:50]
+
+    # Write back to CSV
+    with open(csv_file, 'w', newline='', encoding='utf-8') as f:
+        writer = csv.DictWriter(f, fieldnames=['username', 'email', 'score', 'date'])
+        writer.writeheader()
+        for row in scores:
+            writer.writerow(row)
+
+    return scores
+
+
+def mask_email(email):
+    """Mask email by replacing part of the username and domain with asterisks."""
+    if not email or '@' not in email:
+        return email
+    username, domain = email.split('@', 1)
+    # Mask part of username
+    if len(username) > 2:
+        masked_user = username[0] + '***' + username[-1]
+    else:
+        masked_user = username[0] + '***'
+    # Mask part of domain
+    domain_parts = domain.split('.')
+    masked_domain = domain_parts[0][0] + '***'
+    if len(domain_parts) > 1:
+        masked_domain += '.' + domain_parts[-1]
+    return f"{masked_user}@{masked_domain}"
+
+
+def get_game_scores(game_id):
+    if not game_id:
+        return []
+
+    csv_file = os.path.join(DATA_DIR, f"score-board-{game_id}.csv")
+    scores = []
+    if os.path.exists(csv_file):
+        with open(csv_file, newline='', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                row['email'] = mask_email(row.get('email', ''))
+                scores.append(row)
+
+    scores = sorted(scores, key=lambda x: int(x['score']), reverse=True)[:50]
+    return scores

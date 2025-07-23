@@ -1,7 +1,7 @@
 import os
 import json
 import logging
-from config import GAME_DIR
+from config import GAME_DIR, GAME_STAT_FILE
 
 
 logger = logging.getLogger(__name__)
@@ -26,7 +26,7 @@ def load_game_metadata(game_id):
         'template'  : template_path,
         'style'     : f'games/{game_id}/style.css',
         'script'    : f'games/{game_id}/script.js',
-        'viewed'    : 0,
+        'viewed'    : get_game_viewer(game_id),
     }
 
     # Cek thumbnail
@@ -78,3 +78,40 @@ def update_game_metadata(game_id, key, value):
             json.dump(metadata, f, ensure_ascii=False, indent=2)
     except IOError as e:
         raise IOError(f"Gagal menyimpan info.json untuk {game_id}: {e}")
+    
+
+
+def update_game_viewer(game_id):
+    # Load existing stats
+    stats = {}
+    if os.path.isfile(GAME_STAT_FILE):
+        try:
+            with open(GAME_STAT_FILE, 'r', encoding='utf-8') as f:
+                stats = json.load(f)
+                if not isinstance(stats, dict):
+                    stats = {}
+        except (IOError, json.JSONDecodeError):
+            stats = {}
+
+    # Update viewer count
+    stats[game_id] = stats.get(game_id, 0) + 1
+
+    # Save back
+    try:
+        with open(GAME_STAT_FILE, 'w', encoding='utf-8') as f:
+            json.dump(stats, f, ensure_ascii=False, indent=2)
+    except IOError as e:
+        logger.warning(f"Gagal menyimpan game_visitor_counter.json: {e}")
+        
+
+def get_game_viewer(game_id):
+    stats = {}
+    if os.path.isfile(GAME_STAT_FILE):
+        try:
+            with open(GAME_STAT_FILE, 'r', encoding='utf-8') as f:
+                stats = json.load(f)
+                if not isinstance(stats, dict):
+                    stats = {}
+        except (IOError, json.JSONDecodeError):
+            stats = {}
+    return stats.get(game_id, 0)

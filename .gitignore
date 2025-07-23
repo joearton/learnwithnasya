@@ -14,6 +14,8 @@ ENV/
 
 # Flask instance folder (for config, uploads, etc.)
 instance/
+uploads/
+data/
 
 # Flask environment variables
 .env
@@ -51,4 +53,3 @@ coverage.xml
 Thumbs.db
 ehthumbs.db
 Icon?
-visitor_statistic.csv

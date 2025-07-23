@@ -1,17 +1,19 @@
 import os
 import csv
 from datetime import datetime, timedelta
-from config import STATS_FIELDS, STATS_FILE
+from config import GENERIC_STATS_FIELDS, GENERIC_STAT_FILE
 from flask import request
 from collections import defaultdict
+
+from helpers.game import get_game_scores
 
 
 
 def init_stats_file():
     """Inisialisasi file CSV dengan header yang benar"""
-    if not os.path.exists(STATS_FILE):
-        with open(STATS_FILE, 'w', newline='', encoding='utf-8') as f:
-            writer = csv.DictWriter(f, fieldnames=STATS_FIELDS)
+    if not os.path.exists(GENERIC_STAT_FILE):
+        with open(GENERIC_STAT_FILE, 'w', newline='', encoding='utf-8') as f:
+            writer = csv.DictWriter(f, fieldnames=GENERIC_STATS_FIELDS)
             writer.writeheader()
 
 
@@ -38,7 +40,7 @@ def record_visit(response):
 
     # Cek apakah kunjungan serupa sudah ada dalam 3 jam terakhir
     try:
-        with open(STATS_FILE, 'r', encoding='utf-8') as f:
+        with open(GENERIC_STAT_FILE, 'r', encoding='utf-8') as f:
             reader = csv.DictReader(f)
             for row in reader:
                 try:
@@ -58,8 +60,8 @@ def record_visit(response):
         pass  # Jika file belum ada, lanjut catat saja
 
     # ✅ Tulis kunjungan baru
-    with open(STATS_FILE, 'a', newline='', encoding='utf-8') as f:
-        writer = csv.DictWriter(f, fieldnames=STATS_FIELDS)
+    with open(GENERIC_STAT_FILE, 'a', newline='', encoding='utf-8') as f:
+        writer = csv.DictWriter(f, fieldnames=GENERIC_STATS_FIELDS)
         writer.writerow(new_visit)
 
     return response
@@ -68,12 +70,12 @@ def record_visit(response):
 def get_visitor_stats():
     """Membaca data statistik dengan validasi header"""
     stats = []
-    if os.path.exists(STATS_FILE):
-        with open(STATS_FILE, 'r', encoding='utf-8') as f:
+    if os.path.exists(GENERIC_STAT_FILE):
+        with open(GENERIC_STAT_FILE, 'r', encoding='utf-8') as f:
             # Cek apakah file kosong atau header valid
             try:
                 reader = csv.DictReader(f)
-                if reader.fieldnames and all(field in STATS_FIELDS for field in reader.fieldnames):
+                if reader.fieldnames and all(field in GENERIC_STATS_FIELDS for field in reader.fieldnames):
                     stats = list(reader)
             except csv.Error:
                 pass
@@ -91,7 +93,8 @@ def get_game_stats(game_id=None):
         'visits_by_day': defaultdict(int),
         'referrers': defaultdict(int),
         'user_agents': defaultdict(int),
-        'last_visited': None
+        'last_visited': None,
+        'scores': get_game_scores(game_id),
     }
 
     for entry in stats:

@@ -1,8 +1,14 @@
 import os
-from flask import Blueprint, render_template, request, abort, render_template_string
-from helpers.metadata import load_game_metadata, update_game_metadata
-from helpers.game import get_games_list
+import secrets
+from flask import Blueprint, render_template, request, abort, render_template_string, session
+from helpers.metadata import load_game_metadata, update_game_viewer
+from helpers.game import get_games_list, save_game_score
 from config import BASE_DIR
+from flask import jsonify
+import csv
+from datetime import datetime
+from config import DATA_DIR
+from flask_login import current_user, login_required
 
 games_bp = Blueprint('games', __name__)
 
@@ -68,6 +74,25 @@ def game_list():
     )
 
 
+@games_bp.route('/game/start', methods=['POST'])
+@login_required
+def start_game():
+    data = request.get_json()
+    game_id = data.get('game_id')
+    if not game_id:
+        return jsonify({'error': 'Missing game_id'}), 400
+
+    # Generate random token
+    token = secrets.token_urlsafe(16)
+    # Simpan token di session user
+    session['game_token'] = token
+    session['game_id'] = game_id
+    session['game_start_time'] = datetime.utcnow().isoformat()
+
+    return jsonify({'token': token})
+
+
+
 @games_bp.route('/play/<game_id>')
 def play_game(game_id):
     game = load_game_metadata(game_id)
@@ -80,10 +105,8 @@ def play_game(game_id):
         return render_template('404.html'), 404
 
     # Tambahkan viewed +1 dan simpan
-    current_views = game.get('viewed', 0)
     try:
-        update_game_metadata(game_id, 'viewed', current_views + 1)
-        game['viewed'] = current_views + 1
+        update_game_viewer(game_id)
     except Exception as e:
         print(f"[ERROR] Gagal update viewed untuk {game_id}: {e}")
 
@@ -91,6 +114,40 @@ def play_game(game_id):
     with open(template_file) as f:
         template_str = f.read()
     return render_template_string(template_str, game=game)
+
+
+@games_bp.route('/game/score', methods=['POST'])
+@login_required
+def record_game_score():
+    if not request.is_json:
+        abort(403)  # Forbid direct access (non-JSON requests)
+
+    def reset_session():
+        session.pop('game_token', None)
+        session.pop('game_id', None)
+        session.pop('game_start_time', None)
+
+    data     = request.get_json()
+    username = getattr(current_user, 'username', None)
+    email    = getattr(current_user, 'email', None)
+    game_id  = data.get('game_id')
+    token    = data.get('token')
+    score    = data.get('score', 0)
+
+    if token != session.get('game_token') or game_id != session.get('game_id'):
+        reset_session()
+        return jsonify({'error': 'Invalid token'}), 403
+
+    if not all([game_id, username, email, score]):
+        reset_session()
+        return jsonify({'error': 'Missing required fields'}), 400
+
+    top_scores = save_game_score(game_id, username, email, score)
+    reset_session()
+    
+    return jsonify({'success': True, 'top_scores': top_scores})
+    
+
 
 
 
