@@ -1,0 +1,19 @@
+{% extends "base_game.html" %}
+
+{% block title %}Listen Simple Question{% endblock %}
+
+{% block game %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<div class="container py-4 text-center">
+
+    <div id="question-container" class="card mb-4 border-primary">
+        <div class="card-body py-5">
+            <h3 id="question" class="mb-5"></h3>            
+            <div id="options-container" class="row g-3"></div>
+        </div>
+    </div>
+
+    <div id="feedback" class="alert fs-4"></div>
+</div>
+{% endblock %}

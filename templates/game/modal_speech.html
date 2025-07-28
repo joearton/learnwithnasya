@@ -1,0 +1,53 @@
+<div class="modal fade" id="speechConfigModal" tabindex="-1" aria-labelledby="speechConfigModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="speechConfigModalLabel">Speech Settings</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="speechConfigForm">
+                    <div class="mb-3">
+                        <label for="voiceSelect" class="form-label">Voice</label>
+                        <select class="form-select" id="voiceSelect">
+                            <option value="">Loading voices...</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="languageSelect" class="form-label">Language</label>
+                        <select class="form-select" id="languageSelect">
+                            <option value="en-GB">English (UK)</option>
+                            <option value="en-US">English (US)</option>
+                            <option value="id-ID">Indonesian</option>
+                            <!-- Add more languages as needed -->
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="pitchRange" class="form-label">Pitch: <span id="pitchValue">1.0</span></label>
+                        <input type="range" class="form-range" min="0.5" max="2" step="0.1" id="pitchRange" value="1.0">
+                    </div>
+                    <div class="mb-3">
+                        <label for="rateRange" class="form-label">Speed: <span id="rateValue">0.9</span></label>
+                        <input type="range" class="form-range" min="0.5" max="2" step="0.1" id="rateRange" value="0.9">
+                    </div>
+                    <div class="mb-3">
+                        <label for="volumeRange" class="form-label">Volume: <span id="volumeValue">1.0</span></label>
+                        <input type="range" class="form-range" min="0" max="1" step="0.1" id="volumeRange" value="1.0">
+                    </div>
+                </form>
+                <div class="alert alert-info">
+                    You can't change voice when listening mode 
+                </div>
+                <div class="d-flex justify-content-center mt-3">
+                    <button id="testSpeechBtn" class="btn  btn-outline-primary">
+                        <i class="fas fa-play me-2"></i>Test Speech
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="saveSpeechSettings" class="btn btn-primary">Save Settings</button>
+            </div>
+        </div>
+    </div>
+</div>

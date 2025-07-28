@@ -1,0 +1,21 @@
+<!-- Game Control Bar -->
+<nav class="sticky-top w-100 bg-primary bg-gradient text-white shadow-sm py-2 px-1" style="z-index: 1040;">
+    <div class="container-fluid d-flex justify-content-between align-items-center flex-wrap">
+
+        <!-- Game Title (Brand) -->
+        <div class="d-flex align-items-center gap-2">
+            <i class="fas fa-gamepad"></i>
+            <span class="fw-bold">{{ game.title }}</span>
+        </div>
+
+        <!-- User Info -->
+        <a class="d-flex align-items-center text-white text-decoration-none"
+            href="{{ url_for('auth.login') if not current_user.is_authenticated else '#' }}">
+            <span class="fw-semibold me-2 d-none d-sm-inline small">
+                {{ current_user.username if current_user.is_authenticated else 'Guest' }}
+            </span>
+            <i class="fas fa-user-circle"></i>
+        </a>
+
+    </div>
+</nav>

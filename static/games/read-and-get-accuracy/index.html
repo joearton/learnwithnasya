@@ -1,0 +1,48 @@
+<!-- index.html -->
+{% extends "base_game.html" %}
+
+{% block title %}Reading and Get Accuracy{% endblock %}
+
+{% block game %}
+{% include "elements/check_sr_support.html" %}
+<div class="container py-5">
+    <div class="card mb-4">
+        <div id="question-container" class="card-body py-3">
+            <div class="h5 fw-normal text-muted my-3">Read this paragraph:</div>
+            <div id="target-paragraph" class="px-3 h5 py-3 mb-4 rounded click-to-speak"></div>
+            
+            <div class="mb-5 text-center">
+                <button id="start-recording" class="btn btn-success">
+                    <i class="fas fa-microphone me-2"></i> Start Speaking
+                </button>
+                <button id="stop-recording" class="btn btn-danger d-none">
+                    <i class="fas fa-stop me-2"></i> Stop Speaking
+                </button>
+            </div>
+            
+            <div class="mb-5">
+                <div class="h5 fw-normal text-muted my-1">You said:</div>
+                <div id="user-speech" class="p-3 border rounded"></div>
+            </div>
+            
+            <div id="result-feedback" class="mb-5 rounded">
+                <div class="h5 fw-normal text-muted my-1">Your accuracy: <span id="accuracy-score" class="fw-bold">0</span>%</div>
+                <div class="progress mb-3" style="height: 20px;">
+                    <div id="accuracy-bar" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                </div>
+                <p id="correct-words" class="mb-1"></p>
+                <p id="incorrect-words" class="mb-1"></p>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="text-center">
+        <button id="next-btn" class="btn btn-primary btn-lg px-5 d-none">
+            <i class="fas fa-arrow-right me-2"></i> Next
+        </button>
+    </div>
+
+</div>
+{% endblock %}

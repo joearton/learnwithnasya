@@ -1,0 +1,141 @@
+/* Minimalist Toolbox */
+.game-toolbox-container {
+    position: fixed;
+    bottom: 127px;
+    right: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+    z-index: 1000;
+}
+
+.game-toolbox {
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.game-toolbox.show {
+    display: flex;
+}
+
+.toolbox-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 13px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #4b5563;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.toolbox-btn:hover {
+    background: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    color: #3b82f6;
+}
+
+.toolbox-btn.active {
+    color: #3b82f6;
+    background: #eff6ff;
+}
+
+/* Animation for toolbox buttons */
+.game-toolbox.show .toolbox-btn {
+    animation: fadeInUp 0.3s ease forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Audio Mute State */
+#toolbox-audio.muted {
+    color: #ef4444;
+}
+
+#toolbox-audio.muted i::before {
+    content: "\f6a9"; /* volume-mute icon */
+}
+
+/* Rotate cog when toolbox is open */
+#toolbox-toggle.rotate i {
+    animation: rotateCog 0.5s ease forwards;
+}
+
+@keyframes rotateCog {
+    to {
+        transform: rotate(180deg);
+    }
+}
+
+/* Modal Adjustments */
+.confirmation-modal .modal-content {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.confirmation-modal .modal-header {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.confirmation-modal .modal-footer {
+    border-top: none;
+    padding-top: 0;
+}
+
+
+/* Fade-in default */
+.fade-effect {
+    opacity: 0;
+    animation: fadeIn 0.4s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* Progress Bar */
+.progress-tracker {
+    transition: all 0.3s ease;
+}
+
+.progress {
+    height: 10px;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+}
+
+.progress-bar {
+    transition: width 0.5s ease;
+}
+
+@media (max-width: 576px) {
+    .progress-tracker {
+        padding: 0.5rem !important;
+    }
+    .badge {
+        padding: 0.35rem 0.75rem !important;
+        font-size: 0.8rem;
+    }
+}

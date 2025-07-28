@@ -16,6 +16,8 @@ ENV/
 instance/
 uploads/
 data/
+questions/
+questions.json
 
 # Flask environment variables
 .env

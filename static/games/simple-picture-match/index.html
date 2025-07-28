@@ -4,33 +4,16 @@
 
 {% block game %}
 <div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="mb-0">Picture Match</h1>
-        <div class="d-flex gap-3">
-            <div class="badge bg-primary fs-5" id="timer">01:00</div>
-            <div class="badge bg-success fs-5" id="score">Score: 0</div>
-        </div>
-    </div>
-
-    <div class="card mb-4 border-primary">
+    <div id="question-container" class="card mb-4 border-primary">
         <div class="card-body text-center p-4">
-            <div id="questionText" style="display:none;">
-                <div id="animatedPicture" class="emoji-animation display-1 my-4"></div>
-                <h2 id="promptText" class="click-to-speak">Match the picture!</h2>
+            <h2 id="question" class="click-to-speak"></h2>
+            <div class="mx-auto" style="max-width: 300px;">
+                <div id="question-image" class="my-4"></div>
             </div>
         </div>
     </div>
-
-    <div class="text-center mb-4">
-        <button id="startBtn" class="btn btn-lg btn-success">
-            <i class="fas fa-play me-2"></i>Start Game
-        </button>
+    <div class="row g-3" id="options-container">
     </div>
-
-    <div class="row g-3" id="optionsContainer" style="display:none;">
-        <!-- Options will be inserted here by JavaScript -->
-    </div>
-
-    <div id="feedback" class="alert text-center mt-4" style="display: none;"></div>
+    <div id="feedback" class="alert text-center mt-4"s></div>
 </div>
 {% endblock %}

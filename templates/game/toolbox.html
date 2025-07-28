@@ -1,0 +1,23 @@
+<div class="game-toolbox-container">
+    <button id="toolbox-toggle" class="toolbox-btn" title="Toolbox">
+        <i class="fas fa-cog"></i>
+    </button>
+    <div class="game-toolbox">
+        <button id="toolbox-home" class="toolbox-btn" title="Return to home">
+            <i class="fas fa-home"></i>
+        </button>
+        <button id="toolbox-speech" class="toolbox-btn" title="Speech Configuration">
+            <i class="fa fa-bullhorn" aria-hidden="true"></i>
+        </button>
+        <button id="toolbox-audio" class="toolbox-btn" title="Mute sound">
+            <i class="fas fa-volume-up"></i>
+        </button>
+    </div>
+</div>
+
+<!-- Home Confirmation Modal -->
+{% include "game/modal_exit_confirm.html" %}
+
+
+<!-- Speech Configuration Modal -->
+{% include "game/modal_speech.html" %}

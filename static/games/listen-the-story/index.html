@@ -1,0 +1,25 @@
+{% extends "base_game.html" %}
+
+{% block title %}Listen the Story{% endblock %}
+
+{% block game %}
+<div class="container game-container text-center py-3">
+
+    <div class="card shadow-sm mb-4 py-3">
+        <div class="card-body">
+            <div id="question-container"></div>
+            <button id="play-question" class="btn btn-primary btn-lg mb-5">
+                <i class="fas fa-volume-up me-2"></i>Listen the Story
+            </button>
+            <p class="text-muted mb-1">Listen carefully then choose the correct answer belo:</p>
+            <h5 id="question"></h5>
+        </div>
+    </div>
+
+    <div id="options-container" class="row gx-1"></div>
+    <div class="mt-4">
+        <button id="next-btn" class="btn btn-lg btn-primary mt-3 d-none">Next Question</button>
+    </div>
+
+</div>
+{% endblock %}

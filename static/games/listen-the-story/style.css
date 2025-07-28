@@ -1,0 +1,21 @@
+.option-btn {
+    transition: all 0.3s ease;
+    margin: 10px 0 !important;
+}
+
+.option-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+#play-question {
+    transition: all 0.3s ease;
+}
+
+#play-question.playing {
+    background-color: #28a745 !important;
+}
+
+#question {
+    transition: opacity 0.5s ease;
+}

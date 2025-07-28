@@ -1,0 +1,48 @@
+<div class="modal fade" id="gameInfoModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">About This Game</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <h6 class="text-muted">Title</h6>
+                    <p>{{ game.title }}</p>
+                </div>
+                
+                {% if game.description %}
+                    <div class="mb-3">
+                        <h6 class="text-muted">Description</h6>
+                        <p>{{ game.description }}</p>
+                    </div>
+                {% endif %}
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <h6 class="text-muted">Author</h6>
+                        <p>{{ game.author }}</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <h6 class="text-muted">Difficulty</h6>
+                        <p>{{ game.difficulty }}</p>
+                    </div>
+                </div>
+                
+                {% if game.tags %}
+                    <div class="mb-3">
+                        <h6 class="text-muted">Tags</h6>
+                        <div class="d-flex flex-wrap gap-2">
+                            {% for tag in game.tags %}
+                            <span class="badge bg-primary bg-opacity-10 text-primary">{{ tag }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

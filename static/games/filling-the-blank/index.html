@@ -1,0 +1,20 @@
+{% extends "base_game.html" %}
+
+{% block title %}Fill the Blank{% endblock %}
+
+{% block game %}
+<div class="container py-5">
+    <!-- Question Section -->
+    <div id="question-container" class="text-center">
+        <div class="card shadow-lg border-0 rounded-4">
+            <div class="card-body p-5">
+                <!-- Question Text -->
+                <h3 id="question" class="card-title click-to-speak text-primary fade-effect fw-bold mb-4"></h3>
+
+                <!-- Options -->
+                <div id="options-container" class="d-grid gap-3 col-12 col-md-8 mx-auto mt-3"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

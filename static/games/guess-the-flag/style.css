@@ -1,13 +1,6 @@
-/* Minimal additional styling */
-.flag-container {
-    min-height: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
 .flag-emoji {
-    font-size: 8rem;
+    font-size: 9rem;
     line-height: 1;
 }
 

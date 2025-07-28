@@ -1,0 +1,36 @@
+<!-- Block Meta untuk SEO & Media Sosial -->
+<meta name="description" content="{{ game.description }}">
+<meta name="author" content="{{ game.author }}">
+<meta name="keywords" content="{{ game.tags|join(', ') }}, {{ game.categories }}, {{ game.skills|join(', ') }}">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ request.url }}">
+<meta property="og:title" content="{{ game.title }}">
+<meta property="og:description" content="{{ game.description }}">
+<meta property="og:image" content="{{ url_for('static', filename='images/' + game.thumbnail) if game.thumbnail else '' }}">
+<meta property="og:image:alt" content="{{ game.thumbnail_alt }}">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ game.title }}">
+<meta name="twitter:description" content="{{ game.description }}">
+<meta name="twitter:image" content="{{ url_for('static', filename='images/' + game.thumbnail) if game.thumbnail else '' }}">
+<meta name="twitter:image:alt" content="{{ game.thumbnail_alt }}">
+
+<!-- Schema.org markup -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Game",
+    "name": "{{ game.title }}",
+    "description": "{{ game.description }}",
+    "author": {
+        "@type": "Person",
+        "name": "{{ game.author }}"
+    },
+    "gameDifficulty": "{{ game.difficulty }}",
+    "keywords": "{{ game.tags|join(', ') }}, {{ game.categories }}",
+    "suitableForAge": "{{ game.ages }}"
+}
+</script>

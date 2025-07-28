@@ -1,0 +1,12 @@
+{
+    "title": "Fill in the Blank",
+    "description": "English vocabulary game for children with fill-in-the-blank questions",
+    "author": "Joe Arton",
+    "version": "1.0",
+    "difficulty": "easy",
+    "categories": "vocabulary",
+    "tags": ["kids", "learning"],
+    "skills": ["reading", "vocabulary"],
+    "ages": "6-10",
+    "thumbnail_alt": "A cartoon pencil and notebook with happy faces"
+}

@@ -1,0 +1,55 @@
+{% extends "base_game.html" %}
+
+{% block title %}Sentence Pronounciation{% endblock %}
+
+
+{% block game %}
+{% include "elements/check_sr_support.html" %}
+<div class="container py-4">
+    <div id="question-container">        
+        <!-- Sentence Card -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-body py-5">
+                <div id="currentSentence" class="text-center mb-5">
+                    <div id="question"></div>
+                    <div class="sentence-text h4 fw-bold mb-2">Press the mic to start!</div>
+                    <div class="sentence-translation text-muted"></div>
+                </div>
+                
+                <!-- User Speech Feedback -->
+                <div id="userSpeech" class="user-speech-feedback bg-light p-3 rounded-3 text-start mb-3">
+                    <div class="d-flex align-items-center">
+                        <div class="user-icon bg-info rounded-circle me-3"  style="width:40px;height:40px;line-height:40px;text-align:center">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <div class="text-muted small">You said:</div>
+                            <div class="user-text fw-bold"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="result-feedback" class="mb-3 rounded">
+                    <div class="h5 fw-normal text-muted my-1">Your accuracy: <span id="accuracy-score" class="fw-bold">0</span>%</div>
+                    <div class="progress mb-3" style="height: 20px;">
+                        <div id="accuracy-bar" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                    </div>
+                    <p id="correct-words" class="mb-1"></p>
+                    <p id="incorrect-words" class="mb-1"></p>
+                </div>
+            </div>
+
+            
+        </div>
+        
+        <!-- Microphone Button -->
+        <div class="text-center my-3">
+            <button id="micButton" class="btn btn-danger btn-lg position-relative">
+                <i class="fas fa-microphone fa-2x"></i>
+                <div class="pulse-ring"></div>
+            </button>
+        </div>
+        <div id="feedback" class="feedback-message my-3 h5"></div>
+    </div>
+
+</div>
+{% endblock %}

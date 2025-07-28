@@ -1,0 +1,12 @@
+{
+    "title": "Listen Simple Question",
+    "description": "Practice simple English listening comprehension",
+    "author": "Joe Arton",
+    "categories": ["Vocabulary", "Beginner English"],
+    "tags": ["english", "words", "multiple choice"],
+    "skills": ["reading", "listening", "word recognition"],
+    "ages": "5-9", 
+    "version": "1.0",
+    "difficulty": "easy",
+    "thumbnail_alt": "Children listening to English words"
+}

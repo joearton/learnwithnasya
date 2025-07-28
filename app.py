@@ -23,12 +23,14 @@ def create_app():
     from blueprints.main import main_bp
     from blueprints.auth import auth_bp
     from blueprints.games import games_bp
+    from blueprints.question import quiz_bp
     from blueprints.stats import stats_bp
     from blueprints.tts import tts_bp
     
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp)
     app.register_blueprint(games_bp)
+    app.register_blueprint(quiz_bp)
     app.register_blueprint(stats_bp)
     app.register_blueprint(tts_bp)
         

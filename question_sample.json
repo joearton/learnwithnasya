@@ -1,0 +1,35 @@
+[
+    {
+        "id": "q1",
+        "type": "multiple_choice",
+        "question": "Sample question?",
+        "options": [
+            "Sample option 1",
+            "Sample option 2",
+            "Sample option 3"
+        ],
+        "correct_answer": 0,
+        "points": 1
+    },
+    {
+        "id": "q2",
+        "type": "essay",
+        "question": "Sample querstion?",
+        "expected_length": 100,
+        "points": 5
+    },
+    {
+        "id": "q3",
+        "type": "true_false",
+        "question": "Sample statement.",
+        "correct_answer": false,
+        "points": 1
+    },
+    {
+        "id": "q4",
+        "type": "short_answer",
+        "question": "Sample question?",
+        "correct_answers": ["option1", "option2"],
+        "points": 1
+    }
+]

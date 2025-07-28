@@ -1,200 +1,57 @@
 {% extends "base.html" %}
 
 {% block meta %}
-    <!-- Block Meta untuk SEO & Media Sosial -->
-    <meta name="description" content="{{ game.description }}">
-    <meta name="author" content="{{ game.author }}">
-    <meta name="keywords" content="{{ game.tags|join(', ') }}, {{ game.categories }}, {{ game.skills|join(', ') }}">
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ request.url }}">
-    <meta property="og:title" content="{{ game.title }}">
-    <meta property="og:description" content="{{ game.description }}">
-    <meta property="og:image" content="{{ url_for('static', filename='images/' + game.thumbnail) if game.thumbnail else '' }}">
-    <meta property="og:image:alt" content="{{ game.thumbnail_alt }}">
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ game.title }}">
-    <meta name="twitter:description" content="{{ game.description }}">
-    <meta name="twitter:image" content="{{ url_for('static', filename='images/' + game.thumbnail) if game.thumbnail else '' }}">
-    <meta name="twitter:image:alt" content="{{ game.thumbnail_alt }}">
-
-    <!-- Schema.org markup -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Game",
-        "name": "{{ game.title }}",
-        "description": "{{ game.description }}",
-        "author": {
-            "@type": "Person",
-            "name": "{{ game.author }}"
-        },
-        "gameDifficulty": "{{ game.difficulty }}",
-        "keywords": "{{ game.tags|join(', ') }}, {{ game.categories }}",
-        "suitableForAge": "{{ game.ages }}"
-    }
-    </script>
+    {% include "game/header_meta.html" %}
 {% endblock %}
 
 
 {% block styles %}
     <link rel="stylesheet" href="{{ url_for('static', filename=game.style) }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/game.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/game-toolbox.css') }}">
 {% endblock %}
 
 
 {% block scripts %}
-    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
     <script>
-        let gameToken = null;
-        const user = '{{ current_user.username if current_user.is_authenticated else "" }}';
-
-        function saveScore(finalScore) {
-            if (!user) return;
-            fetch('/game/score', {
-                method: 'POST',
-                credentials: 'same-origin',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: JSON.stringify({
-                    game_id: '{{ game.id }}',
-                    score: finalScore,
-                    token: gameToken
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Score saved:', data);
-            })
-            .catch(error => {
-                console.error('Error saving score:', error);
-            });
-        }
-
-
-        function fetchGameToken() {
-            return fetch('/game/start', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ game_id: '{{ game.id }}' })
-            })
-            .then(res => res.json())
-            .then(data => {
-                gameToken = data.token;
-            });
-        }
-
-        if (user) {
-            fetchGameToken();
-        }
-
+        var baseUrl = "/api/quiz";
     </script>
+
+    <script src="{{ url_for('static', filename='js/game-toolbox.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
     <script src="{{ url_for('static', filename=game.script) }}"></script>
 {% endblock %}
 
 
 {% block main %}
     {% include "elements/audio.html" %}
-    
-    <div class="game-toolbox">
-        <button id="toolbox-info" class="toolbox-btn" title="Game information" data-bs-toggle="modal" data-bs-target="#gameInfoModal">
-            <i class="fas fa-info"></i>
-        </button>
-        <button id="toolbox-audio" class="toolbox-btn" title="Mute sound">
-            <i class="fas fa-volume-up"></i>
-        </button>
-        <button id="toolbox-home" class="toolbox-btn" title="Return to home">
-            <i class="fas fa-home"></i>
-        </button>
-        <a href="{{ url_for('stats.show_game_stats', game_id=game.id) }}" id="toolbox-stats" class="toolbox-btn" target="_blank" title="View Statistic">
-            <i class="fa fa-line-chart" aria-hidden="true"></i>
-        </a>
-    </div>
-    
-    <div class="fixed-bottom text-end">
-        <div class="d-inline-block bg-primary py-1 px-3 small shadow-sm">
-            <a class="fw-semibold text-white text-decoration-none"
-               href="{{ url_for('auth.login') if not current_user.is_authenticated else '#' }}">
-                <i class="fas fa-user-circle me-1"></i>
-                {{ current_user.username if current_user.is_authenticated else 'Guest' }}
-            </a>
-        </div>
-    </div>
 
-    <!-- Home Confirmation Modal -->
-    <div class="modal fade confirmation-modal" id="homeConfirmationModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Leave Game?</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to return to the home page?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" onclick="confirmNavigateHome()">Go to Home</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Navbar -->
+    {% include "game/navbar.html" %}
 
-    <!-- Game Info Modal -->
-    <div class="modal fade" id="gameInfoModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">About This Game</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <h6 class="text-muted">Title</h6>
-                        <p>{{ game.title }}</p>
-                    </div>
-                    
-                    {% if game.description %}
-                    <div class="mb-3">
-                        <h6 class="text-muted">Description</h6>
-                        <p>{{ game.description }}</p>
-                    </div>
-                    {% endif %}
-                    
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <h6 class="text-muted">Author</h6>
-                            <p>{{ game.author }}</p>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <h6 class="text-muted">Difficulty</h6>
-                            <p>{{ game.difficulty }}</p>
-                        </div>
-                    </div>
-                    
-                    {% if game.tags %}
-                    <div class="mb-3">
-                        <h6 class="text-muted">Tags</h6>
-                        <div class="d-flex flex-wrap gap-2">
-                            {% for tag in game.tags %}
-                            <span class="badge bg-primary bg-opacity-10 text-primary">{{ tag }}</span>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    {% endif %}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
+    <!-- Game Toolbox -->
+    {% include "game/toolbox.html" %}
+
+    
+    <div id="loading" class="text-center my-5" style="display: none;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
         </div>
+        <p class="mt-2">Loading question...</p>
     </div>
+     
 
     <!-- Game Content -->
-    {% block game %}{% endblock %}
+    <div id="start-screen" class="d-flex justify-content-center my-5 bg-light">
+        {% include "game/start_screen.html" %}
+    </div>
+
+
+    <div id="game-screen" style="display: none;">
+        {% block game %}{% endblock %}
+    </div>
+
+    <div id="game-footer" style="display: none;">
+        {% include "game/footer.html" %}
+    </div>
+
 {% endblock %}

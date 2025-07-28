@@ -1,57 +1,31 @@
 {% extends "base_game.html" %}
 
+
 {% block title %}Choose Word to Answer{% endblock %}
 
+
 {% block game %}
-<div class="game-container my-5">
-    <div class="row mb-4">
-        <div class="col-12 text-center">
-            <h1 class="display-5 fw-bold text-primary">Choose Word to Answer</h1>
-            <p class="lead">Pick the correct word that matches the question!</p>
-        </div>
-    </div>
-
-    <div class="row justify-content-center mb-4">
-        <div class="col-md-8">
-            <div class="progress">
-                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" id="progress-bar" style="width: 0%"></div>
-            </div>
-            <div class="d-flex justify-content-between mt-1">
-                <small class="text-muted">Progress: <span id="progress-text">0</span>%</small>
-                <small class="text-muted">Question <span id="current-question">1</span> of <span id="total-questions">5</span></small>
-            </div>
-        </div>
-    </div>
-
-    <div class="row justify-content-center mb-4">
-        <div class="col-md-8 text-center">
-            <div class="card question-card bg-light p-4 mb-3">
-                <h3 id="question" class="click-to-speak"></h3>
-                <img id="question-image" src="" alt="" class="img-fluid d-none mx-auto my-3" style="max-height: 200px;">
-            </div>
-        </div>
-    </div>
-
+<div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="row g-3" id="options-container">
-                <!-- Options will be inserted here by JavaScript -->
-            </div>
-        </div>
-    </div>
+        <div class="col-lg-10">
+            <!-- Main Game Card -->
+            <div class="card shadow-sm mb-4">
+                <!-- Question Container -->
+                <div id="question-container" class="card-body text-center py-4">
+                    <h2 id="question" class="card-title click-to-speak mb-4"></h2>
+                    <img id="question-image" src="" alt="" class="img-fluid rounded d-none mb-3" style="max-height: 200px;">
+                </div>
 
-    <div class="row justify-content-center mt-4">
-        <div class="col-md-8 text-center">
-            <div class="alert alert-success d-none" id="feedback-correct">
-                <i class="fas fa-check-circle me-2"></i> <span class="click-to-speak">Correct! Well done!</span>
+                <!-- Options Container -->
+                <div id="options-container" class="card-body pt-0">
+                    <div class="row g-3">
+                        <!-- Options will be inserted here by JavaScript -->
+                    </div>
+                </div>
+
             </div>
-            <div class="alert alert-danger d-none" id="feedback-wrong">
-                <i class="fas fa-times-circle me-2"></i> <span class="click-to-speak">Oops! Try again.</span>
-            </div>
-            <button class="btn btn-primary btn-lg d-none" id="next-btn">
-                Next Question <i class="fas fa-arrow-right ms-2"></i>
-            </button>
         </div>
     </div>
 </div>
+
 {% endblock %}

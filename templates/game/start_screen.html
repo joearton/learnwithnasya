@@ -1,0 +1,130 @@
+<div class="card border-0 shadow-lg overflow-hidden" style="max-width: 1250px; width: 100%;">
+    <!-- Gradient Header -->
+    <div class="bg-gradient-primary px-4 py-3">
+        <h1 class="h2 text-white fw-bold mb-0">{{ game.title }}</h1>
+    </div>
+    
+    <div class="card-body px-4 py-3">
+        <!-- Game Description -->
+        <p class="lead text-dark mb-5">{{ game.description }}</p>
+
+        <!-- Game Info Summary - Modern Layout -->
+        <div id="gameInfo" class="row g-3 mb-5">
+            <!-- Left Column -->
+            <div class="col-lg-6">
+                <div class="d-flex align-items-start mb-3">
+                    <div class="bg-light p-3 icon-circle me-3">
+                        <i class="fas fa-user text-primary fs-5"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-uppercase text-muted mb-0">Author</h6>
+                        <p class="mb-0 fw-bold">{{ game.author }}</p>
+                    </div>
+                </div>
+                
+                <div class="d-flex align-items-start mb-3">
+                    <div class="bg-light p-3 icon-circle me-3">
+                        <i class="fas fa-code-branch text-primary fs-5"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-uppercase text-muted mb-0">Version</h6>
+                        <p class="mb-0 fw-bold">{{ game.version }}</p>
+                    </div>
+                </div>
+                
+                <div class="d-flex align-items-start mb-3">
+                    <div class="bg-light p-3 icon-circle me-3">
+                        <i class="fas fa-layer-group text-primary fs-5"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-uppercase text-muted mb-0">Category</h6>
+                        <p class="mb-0 fw-bold">{{ game.categories|title }}</p>
+                    </div>
+                </div>
+                
+                <div class="d-flex align-items-start">
+                    <div class="bg-light p-3 icon-circle me-3">
+                        <i class="fas fa-brain text-primary fs-5"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-uppercase text-muted mb-0">Skills</h6>
+                        <p class="mb-0 fw-bold">{{ game.skills | join(', ') }}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Column -->
+            <div class="col-lg-6">
+                <div class="d-flex align-items-start mb-3">
+                    <div class="bg-light p-3 icon-circle me-3">
+                        <i class="fas fa-signal text-primary fs-5"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-uppercase text-muted mb-0">Difficulty</h6>
+                        <p class="mb-0 fw-bold">{{ game.difficulty|title }}</p>
+                    </div>
+                </div>
+                
+                <div class="d-flex align-items-start mb-3">
+                    <div class="bg-light p-3 icon-circle me-3">
+                        <i class="fas fa-child text-primary fs-5"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-uppercase text-muted mb-0">For Ages</h6>
+                        <p class="mb-0 fw-bold">{{ game.ages }}</p>
+                    </div>
+                </div>
+                
+                <div class="d-flex align-items-start mb-3">
+                    <div class="bg-light p-3 icon-circle me-3">
+                        <i class="fas fa-tags text-primary fs-5"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-uppercase text-muted mb-0">Tags</h6>
+                        <p class="mb-0 fw-bold">{{ game.tags | join(', ') }}</p>
+                    </div>
+                </div>
+                
+                <div class="d-flex align-items-start">
+                    <div class="bg-light p-3 icon-circle me-3">
+                        <i class="fas fa-question-circle text-primary fs-5"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-uppercase text-muted mb-0">Total Questions</h6>
+                        <p class="mb-0 fw-bold"><span id="total-questions-info">0</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Start Button with Hover Animation -->
+        <div class="text-center mt-3 mb-5">
+            <button id="start-game-btn" class="btn btn-primary px-5 py-3 rounded-pill shadow-sm hover-scale">
+                <i class="fas fa-play me-2"></i> Start Game
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .hover-scale {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .hover-scale:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #3a7bd5 0%, #00d2ff 100%);
+    }
+    .icon-circle {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%; /* memastikan bulat sempurna */
+        padding: 0; /* hapus padding agar simetris */
+    }    
+</style>
