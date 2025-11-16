@@ -935,6 +935,7 @@ class BaseGame {
             const question = this.questions[this.currentQuestionIndex];
             this.progressTracker.setCurrent(this.currentQuestionIndex);
             this.displayQuestion(question);
+            this.randomizeOptionsOrder();
         } catch (error) {
             this.showError(error.message);
         } finally {
@@ -991,6 +992,23 @@ class BaseGame {
             console.error("Error submitting score:", error);
             this.showFeedback("Error submitting score. Try again later", false);
         }
+    }
+
+    // Shuffle rendered option buttons in the DOM to avoid fixed order
+    randomizeOptionsOrder() {
+        const container = this.domElements.optionsContainer;
+        if (!container) return;
+        const optionButtons = Array.from(container.querySelectorAll('.option-btn'));
+        if (!optionButtons || optionButtons.length <= 1) return;
+
+        // Fisher–Yates shuffle
+        for (let i = optionButtons.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [optionButtons[i], optionButtons[j]] = [optionButtons[j], optionButtons[i]];
+        }
+
+        // Re-append in new order
+        optionButtons.forEach(btn => container.appendChild(btn));
     }
 
     calculateFinalScore() {
